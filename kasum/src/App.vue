@@ -1,11 +1,14 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-
+  <div class="flex flex-col w-52">
+    <LineChart />
+    <PieChart />
+  </div>
+  
 </template>
 
-<style scoped>
+<script setup lang="ts">
+  import LineChart from './components/LineChart.vue'
+  import PieChart from './components/PieChart.vue'
+</script>
 
-</style>
+<style scoped></style>
