@@ -9,9 +9,5 @@
 </script>
 
 <style scoped>
-.bg-gradient-to-b {
-    height: 75vh;
-    border-radius: 0px 0px 8em 8em;
 
-}
 </style>
