@@ -3,7 +3,6 @@
         <h1 class="text-5xl font-bold mb-2 mt-5 drop-shadow-lg">Transacciones</h1>
         <p class="text-lg text-gray-300 mb-8">Gestiona tus transacciones y visualiza tus finanzas</p>
 
-        <!-- Resumen -->
         <div class="flex flex-wrap gap-6 mb-10">
             <div
                 class="bg-white/10 backdrop-blur rounded-2xl px-8 py-6 flex flex-col items-center shadow-lg min-w-[180px]">
@@ -28,7 +27,6 @@
             </div>
         </div>
 
-        <!-- Gráficos -->
         <div class="flex flex-wrap gap-10 justify-center w-full mb-12">
             <div class="bg-white/10 backdrop-blur rounded-2xl p-6 shadow-lg flex flex-col items-center">
                 <BarCharts :transacciones="transacciones" />
@@ -38,7 +36,6 @@
             </div>
         </div>
 
-        <!-- Botón añadir transacción -->
         <div class="mb-8">
             <button @click="showModal = true"
                 class="transition-colors bg-blue-500 hover:bg-blue-600 text-white rounded-full px-8 py-3 text-lg font-semibold shadow-lg">
@@ -46,7 +43,6 @@
             </button>
         </div>
 
-        <!-- Modal Nueva Transacción -->
         <transition name="fade">
         <div v-if="showModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
             <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-8 w-full max-w-md relative border-2 border-blue-200 animate-modal">
@@ -99,7 +95,6 @@
         </div>
         </transition>
 
-        <!-- Modal Nueva Categoría -->
         <transition name="fade">
         <div v-if="showCatModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
             <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-6 w-full max-w-xs relative border-2 border-blue-200 animate-modal">
@@ -116,7 +111,6 @@
         </div>
         </transition>
 
-        <!-- Tabla de transacciones -->
         <div class="container mx-auto p-4 mt-8 w-full max-w-5xl">
             <div class="overflow-x-auto">
                 <table class="w-full bg-white shadow-lg rounded-lg">
