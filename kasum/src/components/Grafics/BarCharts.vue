@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Bar } from 'vue-chartjs'
 import {
     Chart as ChartJS,
@@ -18,25 +19,68 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-const chartData = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Sept', 'Oct', 'Nov', 'Dec'],
+const props = defineProps<{
+    transacciones: {
+        fecha: string
+        tipo: 'Gasto' | 'Ingreso'
+        categoria: string
+        descripcion: string
+        importe: number
+    }[]
+}>()
+
+const meses = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Sept', 'Oct', 'Nov', 'Dec'
+]
+
+function getMonth(fecha: string) {
+    if (!fecha) return 0
+    const m = Number(fecha.split('-')[1])
+    return isNaN(m) ? 0 : m - 1
+}
+
+const ingresosPorMes = computed(() => {
+    const arr = Array(12).fill(0)
+    props.transacciones.forEach(t => {
+        if (t.tipo === 'Ingreso') {
+            const idx = getMonth(t.fecha)
+            arr[idx] += t.importe
+        }
+    })
+    return arr
+})
+
+const gastosPorMes = computed(() => {
+    const arr = Array(12).fill(0)
+    props.transacciones.forEach(t => {
+        if (t.tipo === 'Gasto') {
+            const idx = getMonth(t.fecha)
+            arr[idx] += t.importe
+        }
+    })
+    return arr
+})
+
+const chartData = computed(() => ({
+    labels: meses,
     datasets: [
         {
             label: 'INGRESOS',
-            data: [5, 10, 15, 40, 50, 10, 30, 30, 20, 20, 20, 20],
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-            borderColor: 'rgba(255, 255, 255, 1)',
+            data: ingresosPorMes.value,
+            backgroundColor: 'rgba(56, 189, 248, 0.7)',
+            borderColor: 'rgba(56, 189, 248, 1)',
             borderWidth: 1,
         },
         {
             label: 'GASTOS',
-            data: [5, 15, 20, 50, 60, 20, 30, 50, 30, 50, 20, 20],
-            backgroundColor: 'rgba(135, 206, 235, 0.8)',
-            borderColor: 'rgba(135, 206, 235, 1)',
+            data: gastosPorMes.value,
+            backgroundColor: 'rgba(239, 68, 68, 0.7)',
+            borderColor: 'rgba(239, 68, 68, 1)',
             borderWidth: 1,
         },
     ],
-}
+}))
 
 const chartOptions = {
     responsive: true,
@@ -53,12 +97,10 @@ const chartOptions = {
     scales: {
         y: {
             beginAtZero: true,
-            max: 70,
         },
     },
 }
 </script>
-
 
 <style scoped>
 .chart-container {

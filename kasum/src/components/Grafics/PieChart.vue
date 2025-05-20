@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
 import { Pie } from 'vue-chartjs'
 import {
     Chart as ChartJS,
@@ -18,30 +18,56 @@ export default defineComponent({
     components: {
         Pie,
     },
-    setup() {
-        const chartData = {
-            labels: ['Categoría 1', 'Categoría 2', 'Categoría 3', 'Categoría 4', 'Categoría 5'],
+    props: {
+        transacciones: {
+            type: Array,
+            required: true,
+        },
+        categorias: {
+            type: Array,
+            required: true,
+        }
+    },
+    setup(props) {
+        // Colores para las categorías
+        const colores = [
+            'rgba(255, 182, 193, 0.8)', // Rosa claro
+            'rgba(255, 215, 0, 0.8)',   // Amarillo
+            'rgba(147, 112, 219, 0.8)', // Púrpura
+            'rgba(144, 238, 144, 0.8)', // Verde claro
+            'rgba(211, 211, 211, 0.8)', // Gris claro
+            'rgba(135, 206, 235, 0.8)', // Azul claro
+            'rgba(255, 160, 122, 0.8)', // Salmón
+            'rgba(255, 99, 132, 0.8)',  // Rojo
+            'rgba(54, 162, 235, 0.8)',  // Azul
+            'rgba(255, 206, 86, 0.8)',  // Amarillo claro
+        ]
+        const coloresBorde = colores.map(c => c.replace('0.8', '1'))
+
+        // Agrupa gastos por categoría
+        const gastosPorCategoria = computed(() => {
+            const map: Record<string, number> = {}
+            props.categorias.forEach(cat => map[cat] = 0)
+            props.transacciones.forEach((t: any) => {
+                if (t.tipo === 'Gasto' && map.hasOwnProperty(t.categoria)) {
+                    map[t.categoria] += t.importe
+                }
+            })
+            // Solo categorías con gasto > 0
+            return Object.entries(map).filter(([_, v]) => v > 0)
+        })
+
+        const chartData = computed(() => ({
+            labels: gastosPorCategoria.value.map(([cat]) => cat),
             datasets: [
                 {
-                    data: [39, 22, 17, 13, 9], // Porcentajes de la imagen
-                    backgroundColor: [
-                        'rgba(255, 182, 193, 0.8)', // Rosa claro (39%)
-                        'rgba(255, 215, 0, 0.8)',   // Amarillo (22%)
-                        'rgba(147, 112, 219, 0.8)', // Púrpura (17%)
-                        'rgba(144, 238, 144, 0.8)', // Verde claro (13%)
-                        'rgba(211, 211, 211, 0.8)', // Gris claro (9%)
-                    ],
-                    borderColor: [
-                        'rgba(255, 182, 193, 1)',
-                        'rgba(255, 215, 0, 1)',
-                        'rgba(147, 112, 219, 1)',
-                        'rgba(144, 238, 144, 1)',
-                        'rgba(211, 211, 211, 1)',
-                    ],
+                    data: gastosPorCategoria.value.map(([_, val]) => val),
+                    backgroundColor: gastosPorCategoria.value.map((_, i) => colores[i % colores.length]),
+                    borderColor: gastosPorCategoria.value.map((_, i) => coloresBorde[i % coloresBorde.length]),
                     borderWidth: 1,
                 },
             ],
-        }
+        }))
 
         const chartOptions = {
             responsive: true,
@@ -52,7 +78,7 @@ export default defineComponent({
                 },
                 title: {
                     display: true,
-                    text: 'Distribución por Categorías',
+                    text: 'Gastos por Categoría',
                 },
             },
         }
