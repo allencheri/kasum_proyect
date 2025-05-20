@@ -105,6 +105,6 @@ const chartOptions = {
 <style scoped>
 .chart-container {
     width: 600px;
-    height: 300px;
+    height: 400px;
 }
 </style>
