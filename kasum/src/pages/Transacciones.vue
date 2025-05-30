@@ -6,7 +6,7 @@
         <div class="mb-10 w-full max-w-3xl flex flex-col sm:flex-row items-center gap-4 justify-between">
             <div class="flex items-center gap-3">
                 <label class="text-blue-200 font-semibold text-lg">Filtrar por mes:</label>
-                <select v-model="mesSeleccionado" class="rounded-lg px-3 py-2 border border-blue-300 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow">
+                <select v-model="mesSeleccionado" class="rounded-lg px-3 py-2 border border-blue-300 text-white focus:outline-none focus:ring-2  transition-shadow">
                     <option value="" class="bg-gray-800">Todos</option>
                     <option v-for="(mes, idx) in meses" :key="mes" :value="idx" class="bg-gray-800">{{ mes }}</option>
                 </select>
@@ -17,13 +17,13 @@
                     v-model.number="limiteGastoInput"
                     type="number"
                     min="0"
-                    class="rounded-lg px-3 py-1 border border-blue-300 text- focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow w-28"
+                    class="rounded-lg px-3 py-1 border border-blue-300 text- focus:outline-none focus:ring-2  transition-shadow w-28"
                     placeholder="Ej: 1000"
                     required
                 />
                 <span class="text-blue-200 font-semibold">€</span>
                 <button type="submit"
-                    class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
+                    class="bg-[#0a1e2e] text-white px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
                     {{ limiteGasto > 0 ? 'Editar' : 'Añadir' }}
                 </button>
             </form>
@@ -70,7 +70,7 @@
 
         <div class="mb-10">
             <button @click="showModal = true"
-                class="transition-colors bg-blue-500 hover:bg-blue-600 text-white rounded-full px-10 py-3 text-xl font-bold shadow-lg tracking-wide">
+                class="transition-colors bg-[#0a1e2e] hover:bg-blue-950 cursor-pointer text-white rounded-full px-10 py-3 text-xl font-bold shadow-lg tracking-wide">
                 Añadir Transacción +
             </button>
         </div>
@@ -79,13 +79,13 @@
         <div v-if="showLimiteModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
             <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-8 w-full max-w-xs relative border-2 border-blue-200 animate-modal">
                 <button @click="showLimiteModal = false"
-                    class="absolute top-2 right-3 text-blue-400 hover:text-blue-700 text-3xl font-bold transition-transform hover:scale-125">&times;</button>
-                <h2 class="text-xl font-bold mb-4 text-center text-blue-700">Límite de gasto mensual</h2>
+                    class="absolute top-2 right-3 bg-[#0a1e2e] text-3xl font-bold transition-transform hover:scale-125">&times;</button>
+                <h2 class="text-xl font-bold mb-4 text-center bg-[#0a1e2e]">Límite de gasto mensual</h2>
                 <form @submit.prevent="saveLimite" class="space-y-4">
                     <input v-model.number="limiteGastoInput" type="number" min="0" placeholder="Ej: 1000"
                         class="w-full rounded-lg px-3 py-2 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" required />
                     <button type="submit"
-                        class="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 font-semibold transition-colors shadow">
+                        class="w-full bg-[#0a1e2e] text-white rounded-lg py-2 font-semibold transition-colors shadow">
                         Guardar
                     </button>
                 </form>
@@ -97,8 +97,8 @@
         <div v-if="showModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
             <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-8 w-full max-w-md relative border-2 border-blue-200 animate-modal">
                 <button @click="showModal = false"
-                    class="absolute top-3 right-3 text-blue-400 hover:text-blue-700 text-3xl font-bold transition-transform hover:scale-125">&times;</button>
-                <h2 class="text-2xl font-bold mb-4 text-center text-blue-700">Nueva Transacción</h2>
+                    class="absolute top-3 right-3 text-[#0a1e2e] text-3xl font-bold transition-transform hover:scale-125">&times;</button>
+                <h2 class="text-2xl font-bold mb-4 text-center text-[#0a1e2e]">Nueva Transacción</h2>
                 <form @submit.prevent="addTransaccion" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Fecha</label>
@@ -138,7 +138,7 @@
                             required />
                     </div>
                     <button type="submit"
-                        class="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 font-semibold mt-2 transition-colors shadow">Añadir</button>
+                        class="w-full bg-[#0a1e2e] text-white rounded-lg py-2 font-semibold mt-2 transition-colors shadow">Añadir</button>
                 </form>
             </div>
         </div>
@@ -148,13 +148,13 @@
         <div v-if="showCatModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
             <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-6 w-full max-w-xs relative border-2 border-blue-200 animate-modal">
                 <button @click="showCatModal = false"
-                    class="absolute top-2 right-3 text-blue-400 hover:text-blue-700 text-3xl font-bold transition-transform hover:scale-125">&times;</button>
-                <h2 class="text-xl font-bold mb-4 text-center text-blue-700">Nueva Categoría</h2>
+                    class="absolute top-2 right-3 bg-[#0a1e2e] text-3xl font-bold transition-transform hover:scale-125">&times;</button>
+                <h2 class="text-xl font-bold mb-4 text-center bg-[#0a1e2e]">Nueva Categoría</h2>
                 <form @submit.prevent="addCategoria" class="space-y-4">
                     <input v-model="nuevaCategoria" type="text" placeholder="Nombre de la categoría"
-                        class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" required />
+                        class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2  transition-shadow" required />
                     <button type="submit"
-                        class="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 font-semibold transition-colors shadow">Añadir</button>
+                        class="w-full bg-[#0a1e2e] text-white rounded-lg py-2 font-semibold transition-colors shadow">Añadir</button>
                 </form>
             </div>
         </div>

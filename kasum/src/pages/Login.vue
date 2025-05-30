@@ -10,7 +10,7 @@
 
             <div class="space-y-8">
                 <div class="relative">
-                    <input type="text" placeholder="Email"
+                    <input v-model="email" type="text" placeholder="Email"
                         class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
                         aria-label="Correo electrónico" />
                     <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="relative">
-                    <input type="password" placeholder="Contraseña"
+                    <input v-model="password" type="password" placeholder="Contraseña"
                         class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
                         aria-label="Contraseña" />
                     <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
@@ -31,22 +31,57 @@
                     </svg>
                 </div>
 
-                <button
+                <button @click="handleLogin"
                     class="w-full bg-gradient-to-r from-[#0a1e2e] to-[#1e3a5f] text-white py-4 rounded-xl font-semibold text-lg hover:bg-gradient-to-r hover:from-[#1e3a5f] hover:to-[#0a1e2e] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
                     Iniciar Sesión
                 </button>
+                <div v-if="error" class="text-red-600 text-center mt-2">{{ error }}</div>
             </div>
 
             <p class="mt-8 text-center text-sm text-[#0a1e2e]/80">
                 ¿No tienes cuenta?
-                <a href="#"
-                    class="text-[#0a1e2e] font-semibold hover:underline hover:text-[#1e3a5f] transition-colors">Regístrate</a>
+                <router-link to="/registro"
+                    class="text-[#0a1e2e] font-semibold hover:underline hover:text-[#1e3a5f] transition-colors">Regístrate</router-link>
             </p>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../store/store'
+
+const email = ref('')
+const password = ref('')
+const error = ref('')
+const router = useRouter()
+const userStore = useUserStore()
+
+async function handleLogin() {
+    error.value = ''
+    if (!email.value || !password.value) {
+        error.value = 'Completa todos los campos'
+        return
+    }
+    try {
+        // Cambia la URL por la de tu backend real
+        const res = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: email.value,
+                password: password.value
+            })
+        })
+        if (!res.ok) throw new Error('Credenciales incorrectas')
+        const user = await res.json()
+        userStore.setUser(user)
+        router.push('/')
+    } catch (e: any) {
+        error.value = e.message || 'Error al iniciar sesión'
+    }
+}
 </script>
 
 <style scoped>

@@ -4,12 +4,14 @@ import Inicio from '../pages/Inicio.vue'
 import Transacciones from '../pages/Transacciones.vue'
 import Login from '../pages/Login.vue'
 import InfoPage from '../pages/InfoPage.vue'
+import Registro from '../pages/Registro.vue'
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'Home', component: Inicio },
   { path: '/transacciones', name: 'Transacciones', component: Transacciones },
   { path: '/login', name: 'Login', component: Login },
   { path: '/info', name: 'InfoPage', component: InfoPage },
+  { path: '/registro', name: 'Registro', component: Registro },
 ]
 
 const router = createRouter({
