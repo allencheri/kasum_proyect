@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gradient">
-        <NavBar/>
+        <NavBar v-if="$route.path !== '/login'"/>
        <router-view />
     </div>
 </template>

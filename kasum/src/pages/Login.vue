@@ -1,25 +1,46 @@
 <template>
-    <div class="flex align-middle justify-center items-center min-h-screen">
+    <div class="flex items-center justify-center min-h-screen bg-[#0a1e2e]">
         <div
-            class="max-w-md w-full bg-white shadow-2xl rounded-2xl p-8 transform transition-all duration-500 hover:scale-105">
-            <h1 class="text-3xl font-bold text-[#0a1e2e] text-center mb-8">Iniciar Sesión</h1>
-            <div class="space-y-6">
-                <div>
+            class="relative max-w-md w-full bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl p-8 transform transition-all duration-500 hover:scale-105 hover:shadow-[0_15px_50px_rgba(10,30,46,0.3)]">
+            <div class="absolute inset-0 bg-gradient-to-r from-[#fff5eb]/10 to-[#0a1e2e]/10 rounded-3xl -z-10"></div>
+
+            <h1 class="text-4xl font-extrabold text-[#0a1e2e] text-center mb-10 animate-fade-in">
+                Bienvenido
+            </h1>
+
+            <div class="space-y-8">
+                <div class="relative">
                     <input type="text" placeholder="Email"
-                        class="w-full p-3 rounded-lg border border-[#0a1e2e]/20 focus:border-[#0a1e2e] focus:ring-2 focus:ring-[#0a1e2e]/50 transition-colors bg-[#fff5eb] text-[#0a1e2e] placeholder-[#0a1e2e]/50" />
+                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                        aria-label="Correo electrónico" />
+                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l9 6 9-6m0 10V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2z" />
+                    </svg>
                 </div>
-                <div>
+
+                <div class="relative">
                     <input type="password" placeholder="Contraseña"
-                        class="w-full p-3 rounded-lg border border-[#0a1e2e]/20 focus:border-[#0a1e2e] focus:ring-2 focus:ring-[#0a1e2e]/50 transition-colors bg-[#fff5eb] text-[#0a1e2e] placeholder-[#0a1e2e]/50" />
+                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                        aria-label="Contraseña" />
+                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 11c0-1.1-.9-2-2-2s-2 .9-2 2v2h4v-2zm6 5v-2a6 6 0 00-12 0v2a2 2 0 00-2 2v2a2 2 0 002 2h12a2 2 0 002-2v-2a2 2 0 00-2-2z" />
+                    </svg>
                 </div>
+
                 <button
-                    class="w-full bg-[#0a1e2e] text-[#fff5eb] py-3 rounded-lg font-semibold hover:bg-[#0a1e2e]/90 transition-colors duration-300">
+                    class="w-full bg-gradient-to-r from-[#0a1e2e] to-[#1e3a5f] text-white py-4 rounded-xl font-semibold text-lg hover:bg-gradient-to-r hover:from-[#1e3a5f] hover:to-[#0a1e2e] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
                     Iniciar Sesión
                 </button>
             </div>
-            <p class="mt-6 text-center text-sm text-[#0a1e2e]">
+
+            <p class="mt-8 text-center text-sm text-[#0a1e2e]/80">
                 ¿No tienes cuenta?
-                <a href="#" class="text-[#0a1e2e] font-semibold hover:underline">Regístrate</a>
+                <a href="#"
+                    class="text-[#0a1e2e] font-semibold hover:underline hover:text-[#1e3a5f] transition-colors">Regístrate</a>
             </p>
         </div>
     </div>
@@ -29,6 +50,22 @@
 </script>
 
 <style scoped>
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.6s ease-out;
+}
+
 input {
     transition: all 0.3s ease;
 }
@@ -39,5 +76,25 @@ input:focus {
 
 button {
     transition: all 0.3s ease;
+}
+
+body {
+    background: linear-gradient(45deg, #0a1e2e, #1e3a5f, #2a5679);
+    background-size: 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 </style>

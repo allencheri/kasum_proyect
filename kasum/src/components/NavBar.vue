@@ -25,6 +25,10 @@
                 Ajustes
                 <span class="absolute left-0 bottom-0 w-0 h-1 bg-blue-400 rounded-full transition-all duration-300 group-hover:w-full"></span>
             </button>
+            <button class="relative text-lg px-5 py-2 text-white rounded-full hover:text-blue-300 transition-all duration-300 cursor-pointer group">
+            <img src="/user.svg" alt="user" class="w-8 h-8 rounded-full transition-transform" />
+                <span class="absolute left-0 bottom-0 w-0 h-1 bg-blue-400 rounded-full transition-all duration-300 group-hover:w-full"></span>
+            </button>
         </div>
     </div>
 </template>
