@@ -13,6 +13,7 @@ export async function getUserById(id: string | number) {
 }
 
 export async function createUser(user: any) {
+    // user: {nombre, apellido, email, password, rol}
     const res = await fetch(`${BASE_URL}nuevo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -23,6 +24,7 @@ export async function createUser(user: any) {
 }
 
 export async function updateUser(id: string | number, user: any) {
+    // user: {nombre, apellido, email, rol}
     const res = await fetch(`${BASE_URL}${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },

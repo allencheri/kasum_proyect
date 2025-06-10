@@ -11,22 +11,32 @@
                     <option v-for="(mes, idx) in meses" :key="mes" :value="idx" class="bg-gray-800">{{ mes }}</option>
                 </select>
             </div>
-            <form @submit.prevent="saveLimite" class="flex items-center gap-2 bg-gray-800/30 px-4 py-2 rounded-xl shadow border border-blue-300">
-                <label class="text-blue-200 font-semibold text-base">Límite mensual:</label>
-                <input
-                    v-model.number="limiteGastoInput"
-                    type="number"
-                    min="0"
-                    class="rounded-lg px-3 py-1 border border-blue-300 text- focus:outline-none focus:ring-2  transition-shadow w-28"
-                    placeholder="Ej: 1000"
-                    required
-                />
-                <span class="text-blue-200 font-semibold">€</span>
-                <button type="submit"
-                    class="bg-[#0a1e2e] text-white px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
-                    {{ limiteGasto > 0 ? 'Editar' : 'Añadir' }}
-                </button>
-            </form>
+            <div class="flex items-center gap-2 bg-gray-800/30 px-4 py-2 rounded-xl shadow border border-blue-300">
+                <template v-if="!limiteGuardado">
+                    <input
+                        v-model.number="limiteInput"
+                        type="number"
+                        min="0"
+                        class="rounded-lg px-3 py-1 border border-blue-300 text-white bg-gray-700 focus:outline-none focus:ring-2 transition-shadow w-28"
+                        placeholder="Ej: 1000"
+                    />
+                    <span class="text-blue-200 font-semibold">€</span>
+                    <button type="button"
+                        @click="guardarLimite"
+                        class="bg-[#0a1e2e] text-white px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
+                        Añadir límite
+                    </button>
+                </template>
+                <template v-else>
+                    <span class="text-blue-200 font-semibold text-base">Límite mensual:</span>
+                    <span class="rounded-lg px-3 py-1 border border-blue-300 text-white bg-gray-700 w-28 text-center">{{ limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
+                    <button type="button"
+                        @click="editarLimite"
+                        class="bg-[#0a1e2e] text-white px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
+                        Editar
+                    </button>
+                </template>
+            </div>
         </div>
 
         <div class="flex flex-wrap gap-8 mb-12 w-full max-w-5xl justify-center">
@@ -47,14 +57,18 @@
                 <span class="text-3xl font-bold text-red-400">
                     {{ totalGastosFiltrado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}
                 </span>
-                <div v-if="limiteGasto > 0" class="flex items-center mt-2">
-                    <span class="text-blue-200 text-xs font-semibold mr-2">Límite: {{ limiteGasto.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
-                    <span v-if="totalGastosFiltrado > limiteGasto" class="flex items-center ml-2">
-                        <svg class="w-5 h-5 text-red-500 animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zm-9 4h.01"></path>
-                        </svg>
-                        <span class="text-red-400 font-semibold ml-1 text-xs">¡Superado!</span>
-                    </span>
+                <div v-if="limiteGuardado" class="flex flex-col items-center mt-2">
+                    <span class="text-blue-200 text-xs font-semibold mr-2">Límite: {{ limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
+                </div>
+                <div
+                    v-if="limiteGuardado && totalGastosFiltrado > limiteGuardado"
+                    class="absolute top-1 right-3 flex items-center bg-white/90 px-3 py-1 rounded-full shadow"
+                    style="pointer-events: none;"
+                >
+                    <svg class="w-5 h-5 text-red-500 animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zm-9 4h.01"></path>
+                    </svg>
+                    <span class="text-red-500 font-semibold ml-1 text-xs">¡Superado!</span>
                 </div>
             </div>
         </div>
@@ -74,24 +88,6 @@
                 Añadir Transacción +
             </button>
         </div>
-
-        <transition name="fade">
-        <div v-if="showLimiteModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-8 w-full max-w-xs relative border-2 border-blue-200 animate-modal">
-                <button @click="showLimiteModal = false"
-                    class="absolute top-2 right-3 bg-[#0a1e2e] text-3xl font-bold transition-transform hover:scale-125">&times;</button>
-                <h2 class="text-xl font-bold mb-4 text-center bg-[#0a1e2e]">Límite de gasto mensual</h2>
-                <form @submit.prevent="saveLimite" class="space-y-4">
-                    <input v-model.number="limiteGastoInput" type="number" min="0" placeholder="Ej: 1000"
-                        class="w-full rounded-lg px-3 py-2 border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" required />
-                    <button type="submit"
-                        class="w-full bg-[#0a1e2e] text-white rounded-lg py-2 font-semibold transition-colors shadow">
-                        Guardar
-                    </button>
-                </form>
-            </div>
-        </div>
-        </transition>
 
         <transition name="fade">
         <div v-if="showModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
@@ -197,9 +193,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import BarCharts from '../components/Grafics/BarCharts.vue'
 import PieChart from '../components/Grafics/PieChart.vue'
+import { useTransaccionesStore } from '../stores/transaccionesStore'
 
 interface Transaccion {
     fecha: string
@@ -207,7 +204,10 @@ interface Transaccion {
     categoria: string
     descripcion: string
     importe: number
+    id?: number
 }
+
+const store = useTransaccionesStore()
 
 const categorias = ref([
     'Comida',
@@ -220,19 +220,11 @@ const categorias = ref([
     'Otros'
 ])
 
-const transacciones = ref<Transaccion[]>([
-    { fecha: '2022-12-12', tipo: 'Gasto', categoria: 'Comida', descripcion: 'Froiz', importe: 1000 },
-    { fecha: '2022-12-12', tipo: 'Gasto', categoria: 'Comida', descripcion: 'Alcampo', importe: 1000 },
-    { fecha: '2022-12-12', tipo: 'Ingreso', categoria: 'Salario', descripcion: 'Juan Perez', importe: 1500 },
-    { fecha: '2022-12-12', tipo: 'Gasto', categoria: 'Alquiler', descripcion: 'Manuel Gonzales', importe: 660 }
-])
-
 const showModal = ref(false)
 const showCatModal = ref(false)
-const showLimiteModal = ref(false)
 const nuevaCategoria = ref('')
-const limiteGasto = ref<number>(0)
-const limiteGastoInput = ref<number>(0)
+const limiteInput = ref<number | null>(null)
+const limiteGuardado = ref<number | null>(null)
 
 const form = ref<Transaccion>({
     fecha: '',
@@ -242,8 +234,14 @@ const form = ref<Transaccion>({
     importe: 0
 })
 
-function addTransaccion() {
-    transacciones.value.unshift({ ...form.value })
+async function cargarTransacciones() {
+    await store.cargar()
+}
+
+onMounted(cargarTransacciones)
+
+async function addTransaccion() {
+    await store.agregar({ ...form.value })
     showModal.value = false
     form.value = { fecha: '', tipo: 'Gasto', categoria: '', descripcion: '', importe: 0 }
 }
@@ -257,13 +255,28 @@ function addCategoria() {
     showCatModal.value = false
 }
 
-function saveLimite() {
-    limiteGasto.value = limiteGastoInput.value
-    showLimiteModal.value = false
+function cargarLimite() {
+    const val = localStorage.getItem('limiteGasto')
+    if (val !== null) {
+        limiteGuardado.value = Number(val)
+    }
+}
+function guardarLimite() {
+    if (limiteInput.value !== null && limiteInput.value > 0) {
+        limiteGuardado.value = limiteInput.value
+        localStorage.setItem('limiteGasto', String(limiteInput.value))
+        limiteInput.value = null
+    }
+}
+function editarLimite() {
+    limiteInput.value = limiteGuardado.value
+    limiteGuardado.value = null
+    localStorage.removeItem('limiteGasto')
 }
 
-watch(showLimiteModal, (val) => {
-    if (val) limiteGastoInput.value = limiteGasto.value
+onMounted(() => {
+    cargarTransacciones()
+    cargarLimite()
 })
 
 function formatFecha(fecha: string) {
@@ -278,19 +291,36 @@ const meses = [
 ]
 const mesSeleccionado = ref<string | number>('')
 
+// Adaptar transacciones antiguas para que tengan los campos requeridos
+function adaptarTransaccion(t: any): Transaccion {
+    // Si ya tiene los campos, retorna tal cual
+    if ('tipo' in t && 'categoria' in t && 'importe' in t) return t
+    // Si es antigua, adaptarla como gasto genérico
+    return {
+        fecha: t.fecha,
+        tipo: 'Gasto',
+        categoria: 'Otros',
+        descripcion: t.descripcion || '',
+        importe: t.monto || 0,
+        id: t.id
+    }
+}
+
 const transaccionesFiltradas = computed(() => {
-    if (mesSeleccionado.value === '' || mesSeleccionado.value === null) return transacciones.value
-    return transacciones.value.filter(t => {
+    // Adaptar todas las transacciones antes de filtrar
+    const adaptadas = store.transacciones.map(adaptarTransaccion)
+    if (mesSeleccionado.value === '' || mesSeleccionado.value === null) return adaptadas
+    return adaptadas.filter((t: any) => {
         const m = Number(t.fecha.split('-')[1]) - 1
         return m === Number(mesSeleccionado.value)
     })
 })
 
 const totalIngresosFiltrado = computed(() =>
-    transaccionesFiltradas.value.filter(t => t.tipo === 'Ingreso').reduce((sum, t) => sum + t.importe, 0)
+    transaccionesFiltradas.value.filter((t: any) => t.tipo === 'Ingreso').reduce((sum, t) => sum + t.importe, 0)
 )
 const totalGastosFiltrado = computed(() =>
-    transaccionesFiltradas.value.filter(t => t.tipo === 'Gasto').reduce((sum, t) => sum + t.importe, 0)
+    transaccionesFiltradas.value.filter((t: any) => t.tipo === 'Gasto').reduce((sum, t) => sum + t.importe, 0)
 )
 const saldoFiltrado = computed(() => totalIngresosFiltrado.value - totalGastosFiltrado.value)
 </script>

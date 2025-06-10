@@ -1,0 +1,52 @@
+{
+  "transacciones": [
+    {
+      "id": "1",
+      "fecha": "2024-06-01",
+      "tipo": "Gasto",
+      "categoria": "Otros",
+      "descripcion": "Compra supermercado",
+      "importe": 50.25
+    },
+    {
+      "id": "2",
+      "fecha": "2024-06-02",
+      "tipo": "Gasto",
+      "categoria": "Otros",
+      "descripcion": "Pago alquiler",
+      "importe": 300
+    },
+    {
+      "id": "8660",
+      "fecha": "2025-06-10",
+      "tipo": "Ingreso",
+      "categoria": "Salario",
+      "descripcion": "",
+      "importe": 1200
+    },
+    {
+      "id": "196a",
+      "fecha": "2025-06-10",
+      "tipo": "Gasto",
+      "categoria": "Comida",
+      "descripcion": "",
+      "importe": 1
+    },
+    {
+      "id": "076e",
+      "fecha": "2025-06-10",
+      "tipo": "Ingreso",
+      "categoria": "Transporte",
+      "descripcion": "",
+      "importe": 10
+    },
+    {
+      "id": "462e",
+      "fecha": "2025-06-10",
+      "tipo": "Gasto",
+      "categoria": "Alquiler",
+      "descripcion": "",
+      "importe": 600
+    }
+  ]
+}

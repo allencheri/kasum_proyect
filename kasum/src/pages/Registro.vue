@@ -9,9 +9,20 @@
             </h1>
             <div class="space-y-8">
                 <div class="relative">
-                    <input v-model="nombre" type="text" placeholder="Nombre completo"
+                    <input v-model="nombre" type="text" placeholder="Nombre"
                         class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
-                        aria-label="Nombre completo" />
+                        aria-label="Nombre" />
+                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+
+                <div class="relative">
+                    <input v-model="apellido" type="text" placeholder="Apellido"
+                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                        aria-label="Apellido" />
                     <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -52,6 +63,17 @@
                     </svg>
                 </div>
 
+                <div class="relative">
+                    <select v-model="rol"
+                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                        aria-label="Rol del usuario">
+                        <option value="userGratis">Usuario Gratis</option>
+                        <option value="userEstandar">Usuario Estándar</option>
+                        <option value="userPro">Usuario Pro</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+
                 <button @click="handleRegister"
                     class="w-full bg-gradient-to-r from-[#0a1e2e] to-[#1e3a5f] text-white py-4 rounded-xl font-semibold text-lg hover:bg-gradient-to-r hover:from-[#1e3a5f] hover:to-[#0a1e2e] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
                     Registrarse
@@ -76,16 +98,18 @@ import { useUserStore } from '../store/store'
 import { createUser } from '../app/api'
 
 const nombre = ref('')
+const apellido = ref('')
 const email = ref('')
 const password = ref('')
 const password2 = ref('')
+const rol = ref('userGratis')
 const error = ref('')
 const router = useRouter()
 const userStore = useUserStore()
 
 async function handleRegister() {
     error.value = ''
-    if (!nombre.value || !email.value || !password.value || !password2.value) {
+    if (!nombre.value || !apellido.value || !email.value || !password.value || !password2.value) {
         error.value = 'Completa todos los campos'
         return
     }
@@ -96,9 +120,10 @@ async function handleRegister() {
     try {
         const userData = {
             nombre: nombre.value,
+            apellido: apellido.value,
             email: email.value,
             password: password.value,
-            rol: "USER"
+            rol: rol.value
         }
         const user = await createUser(userData)
         userStore.setUser(user)
