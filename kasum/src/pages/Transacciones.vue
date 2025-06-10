@@ -196,7 +196,7 @@
 import { ref, computed, onMounted } from 'vue'
 import BarCharts from '../components/Grafics/BarCharts.vue'
 import PieChart from '../components/Grafics/PieChart.vue'
-import { useTransaccionesStore } from '../stores/transaccionesStore'
+import { useTransaccionesStore } from '../store/transaccionesStore'
 
 interface Transaccion {
     fecha: string

@@ -6,6 +6,7 @@ import Login from '../pages/Login.vue'
 import InfoPage from '../pages/InfoPage.vue'
 import Registro from '../pages/Registro.vue'
 import GestionUsuarios from '../pages/GestionUsuarios.vue'
+import Ahorros from '../pages/MisAhorros.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -15,6 +16,8 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/info', name: 'InfoPage', component: InfoPage },
   { path: '/registro', name: 'Registro', component: Registro },
   { path: '/gestus', name: 'GestionUsuarios', component: GestionUsuarios },
+  { path: '/ahorros', name: 'Ahorros', component: Ahorros },
+  { path: '/:pathMatch(.*)*', redirect: '/' }, // Ruta catch-all para evitar errores 404
 ]
 
 const router = createRouter({
