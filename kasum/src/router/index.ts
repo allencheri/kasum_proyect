@@ -10,14 +10,14 @@ import Ahorros from '../pages/MisAhorros.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
-  { path: '/', name: 'Home', component: Inicio },
+  { path: '/inicio', name: 'Home', component: Inicio },
   { path: '/transacciones', name: 'Transacciones', component: Transacciones },
   { path: '/login', name: 'Login', component: Login },
-  { path: '/info', name: 'InfoPage', component: InfoPage },
+  { path: '/', name: 'InfoPage', component: InfoPage },
   { path: '/registro', name: 'Registro', component: Registro },
   { path: '/gestus', name: 'GestionUsuarios', component: GestionUsuarios },
   { path: '/ahorros', name: 'Ahorros', component: Ahorros },
-  { path: '/:pathMatch(.*)*', redirect: '/' }, // Ruta catch-all para evitar errores 404
+  { path: '/:pathMatch(.*)*', redirect: '/' },
 ]
 
 const router = createRouter({

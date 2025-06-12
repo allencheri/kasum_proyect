@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#0a1e2e] px-4 sm:px-6 lg:px-8 py-24 text-[#fff5eb] flex items-center justify-center">
     <div class="max-w-6xl w-full flex flex-col lg:flex-row gap-10">
 
-      <div class="glass-card flex-1 p-10 rounded-3xl shadow-2xl border border-[#fff5eb]/20 transition-transform duration-500 hover:scale-[1.02]">
+      <div class="glass-card flex-1 p-10 rounded-3xl shadow-2xl border border-[#fff5eb]/20 transition-transform duration-500">
         <h2 class="text-4xl sm:text-5xl font-extrabold">
           ¡Bienvenido, {{ userName }}!
         </h2>
@@ -13,16 +13,21 @@
         <div class="mt-10">
           <router-link
             to="/transacciones"
-            class="inline-flex items-center px-8 py-4 text-base font-semibold rounded-full shadow-lg bg-[#fff5eb] text-[#0a1e2e] hover:bg-[#fff5eb]/80 transition-all duration-300 transform hover:-translate-y-1">
+             class="absolute mt-0 transition-colors bg-white hover:bg-blue-950 hover:text-white cursor-pointer text-[#0a1e2e] rounded-full px-6 py-2 text-xl font-bold shadow-lg tracking-wide">
             Ver Detalles
           </router-link>
         </div>
       </div>
 
-      <div class="glass-card flex-1 p-10 rounded-3xl shadow-2xl border border-[#fff5eb]/20 transition-transform duration-500 hover:scale-[1.02]">
+      <div class="glass-card flex-1 p-10 rounded-3xl shadow-2xl border border-[#fff5eb]/20 transition-transform duration-500">
         <h3 class="text-3xl font-semibold">Meta Principal:</h3>
         <h3 class="text-2xl font-bold mt-2 text-[#fff5eb]">{{ goalName }}</h3>
-        <p class="mt-2 text-lg text-[#fff5eb]/80">Tu progreso hacia la meta</p>
+        <router-link to="/ahorros">
+        <button v-if="goalAmount < 1" @click="goalAmount = 0"  class="absolute mt-5 transition-colors bg-white hover:bg-blue-950 hover:text-white cursor-pointer text-[#0a1e2e] rounded-full px-6 py-2 text-xl font-bold shadow-lg tracking-wide">
+          Añadir meta
+        </button>
+        </router-link>
+        <p v-if="goalAmount > 0" class="mt-2 text-lg text-[#fff5eb]/80">Tu progreso hacia la meta</p>
         <div class="mt-6 w-full h-40">
           <Bar :data="chartData" :options="chartOptions" />
         </div>
@@ -37,8 +42,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { Bar } from 'vue-chartjs';
+import { useUserStore } from '../store/store'
+import { getUserById } from '../app/api'
+
+const userStore = useUserStore();
+const userName = computed(() => userStore.user?.nombre || '');
+
 import {
   Chart as ChartJS,
   Title,
@@ -51,18 +62,51 @@ import {
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-const userName = ref('Alina');
-const savings = ref(20);
-const goalName = ref('Viaje soñado');
-const goalAmount = ref(5000);
-const totalGoal = ref(10000);
+interface Jar {
+  id: string
+  name: string
+  saved: number
+  goal: number
+}
+
+const jars = ref<Jar[]>([]);
+
+const savings = computed(() => {
+  return jars.value.reduce((total, jar) => total + jar.saved, 0);
+});
+
+const largestGoalJar = computed(() => {
+  if (jars.value.length === 0) return null;
+  return jars.value.reduce((max, jar) => max.goal > jar.goal ? max : jar);
+});
+
+const goalName = computed(() => largestGoalJar.value?.name || 'Aún no hay metas');
+const goalAmount = computed(() => largestGoalJar.value?.saved || 0);
+const totalGoal = computed(() => largestGoalJar.value?.goal || 0);
+
+async function fetchJars() {
+  const userId = userStore.user?.id;
+  if (!userId) {
+    jars.value = [];
+    return;
+  }
+  try {
+    const user = await getUserById(userId);
+    jars.value = user.jars || [];
+  } catch (e) {
+    jars.value = [];
+  }
+}
+
+onMounted(fetchJars);
+watch(() => userStore.user?.id, fetchJars);
 
 const chartData = computed(() => ({
   labels: ['Progreso'],
   datasets: [
     {
       label: 'Ahorro',
-      backgroundColor: 'rgba(34, 197, 94, 0.7)', // verde suave
+      backgroundColor: 'rgba(34, 197, 94, 0.7)',
       borderColor: 'rgba(34, 197, 94, 1)',
       data: [goalAmount.value],
       maxBarThickness: 50,
@@ -77,7 +121,7 @@ const chartData = computed(() => ({
   ],
 }));
 
-const chartOptions = ref({
+const chartOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
@@ -103,7 +147,7 @@ const chartOptions = ref({
       },
     },
   },
-});
+}));
 </script>
 
 <style scoped>

@@ -291,11 +291,8 @@ const meses = [
 ]
 const mesSeleccionado = ref<string | number>('')
 
-// Adaptar transacciones antiguas para que tengan los campos requeridos
 function adaptarTransaccion(t: any): Transaccion {
-    // Si ya tiene los campos, retorna tal cual
     if ('tipo' in t && 'categoria' in t && 'importe' in t) return t
-    // Si es antigua, adaptarla como gasto genérico
     return {
         fecha: t.fecha,
         tipo: 'Gasto',
@@ -307,7 +304,6 @@ function adaptarTransaccion(t: any): Transaccion {
 }
 
 const transaccionesFiltradas = computed(() => {
-    // Adaptar todas las transacciones antes de filtrar
     const adaptadas = store.transacciones.map(adaptarTransaccion)
     if (mesSeleccionado.value === '' || mesSeleccionado.value === null) return adaptadas
     return adaptadas.filter((t: any) => {
