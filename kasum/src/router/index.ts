@@ -7,6 +7,7 @@ import InfoPage from '../pages/InfoPage.vue'
 import Registro from '../pages/Registro.vue'
 import GestionUsuarios from '../pages/GestionUsuarios.vue'
 import Ahorros from '../pages/MisAhorros.vue'
+import Ajustes from '../pages/Ajustes.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -17,7 +18,9 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/registro', name: 'Registro', component: Registro },
   { path: '/gestus', name: 'GestionUsuarios', component: GestionUsuarios },
   { path: '/ahorros', name: 'Ahorros', component: Ahorros },
+  { path: '/ajustes', name: 'Ajustes', component: Ajustes },
   { path: '/:pathMatch(.*)*', redirect: '/' },
+
 ]
 
 const router = createRouter({
