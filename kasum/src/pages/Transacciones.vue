@@ -1,38 +1,38 @@
 <template>
     <div class="bg-gradient text-white flex flex-col items-center pt-30 mb-20">
         <h1 class="text-5xl font-extrabold mb-2 mt-5 drop-shadow-lg tracking-tight">Transacciones</h1>
-        <p class="text-lg text-blue-100 mb-10">Gestiona tus transacciones y visualiza tus finanzas de forma profesional</p>
+        <p class="text-lg text-secondary mb-10">Gestiona tus transacciones y visualiza tus finanzas de forma profesional</p>
 
         <div class="mb-10 w-full max-w-3xl flex flex-col sm:flex-row items-center gap-4 justify-between">
             <div class="flex items-center gap-3">
-                <label class="text-blue-200 font-semibold text-lg">Filtrar por mes:</label>
-                <select v-model="mesSeleccionado" class="rounded-lg px-3 py-2 border border-blue-300 text-white focus:outline-none focus:ring-2  transition-shadow">
-                    <option value="" class="bg-gray-800">Todos</option>
-                    <option v-for="(mes, idx) in meses" :key="mes" :value="idx" class="bg-gray-800">{{ mes }}</option>
+                <label class="text-secondary font-semibold text-lg">Filtrar por mes:</label>
+                <select v-model="mesSeleccionado" class="rounded-lg px-3 py-2 border border-secondary/30 bg-primary/30 text-white focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-shadow">
+                    <option value="" class="bg-primary">Todos</option>
+                    <option v-for="(mes, idx) in meses" :key="mes" :value="idx" class="bg-primary">{{ mes }}</option>
                 </select>
             </div>
-            <div class="flex items-center gap-2 bg-gray-800/30 px-4 py-2 rounded-xl shadow border border-blue-300">
+            <div class="flex items-center gap-2 bg-primary/30 px-4 py-2 rounded-xl shadow border border-secondary/30">
                 <template v-if="!limiteGuardado">
                     <input
                         v-model.number="limiteInput"
                         type="number"
                         min="0"
-                        class="rounded-lg px-3 py-1 border border-blue-300 text-white bg-gray-700 focus:outline-none focus:ring-2 transition-shadow w-28"
+                        class="rounded-lg px-3 py-1 border border-secondary/30 text-white bg-primary/40 focus:outline-none focus:ring-2 transition-shadow w-28"
                         placeholder="Ej: 1000"
                     />
-                    <span class="text-blue-200 font-semibold">€</span>
+                    <span class="text-secondary font-semibold">€</span>
                     <button type="button"
                         @click="guardarLimite"
-                        class="bg-[#0a1e2e] text-white px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
+                        class="bg-primary hover:bg-primary/80 text-secondary px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
                         Añadir límite
                     </button>
                 </template>
                 <template v-else>
-                    <span class="text-blue-200 font-semibold text-base">Límite mensual:</span>
-                    <span class="rounded-lg px-3 py-1 border border-blue-300 text-white bg-gray-700 w-28 text-center">{{ limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
+                    <span class="text-secondary font-semibold text-base">Límite mensual:</span>
+                    <span class="rounded-lg px-3 py-1 border border-secondary/30 text-white bg-primary/40 w-28 text-center">{{ limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
                     <button type="button"
                         @click="editarLimite"
-                        class="bg-[#0a1e2e] text-white px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
+                        class="bg-primary hover:bg-primary/80 text-secondary px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
                         Editar
                     </button>
                 </template>
@@ -40,25 +40,25 @@
         </div>
 
         <div class="flex flex-wrap gap-8 mb-12 w-full max-w-5xl justify-center">
-            <div class="bg-white/10 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-blue-400/20">
-                <span class="text-gray-300 text-base mb-1">Saldo</span>
+            <div class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20">
+                <span class="text-secondary text-base mb-1">Saldo</span>
                 <span class="text-4xl font-extrabold" :class="saldoFiltrado >= 0 ? 'text-green-400' : 'text-red-400'">
                     {{ saldoFiltrado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}
                 </span>
             </div>
-            <div class="bg-white/10 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-blue-400/20">
-                <span class="text-gray-300 text-base mb-1">Ingresos</span>
+            <div class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20">
+                <span class="text-secondary text-base mb-1">Ingresos</span>
                 <span class="text-3xl font-bold text-green-400">
                     {{ totalIngresosFiltrado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}
                 </span>
             </div>
-            <div class="bg-white/10 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-blue-400/20 relative">
-                <span class="text-gray-300 text-base mb-1">Gastos</span>
+            <div class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20 relative">
+                <span class="text-secondary text-base mb-1">Gastos</span>
                 <span class="text-3xl font-bold text-red-400">
                     {{ totalGastosFiltrado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}
                 </span>
                 <div v-if="limiteGuardado" class="flex flex-col items-center mt-2">
-                    <span class="text-blue-200 text-xs font-semibold mr-2">Límite: {{ limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
+                    <span class="text-secondary text-xs font-semibold mr-2">Límite: {{ limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
                 </div>
                 <div
                     v-if="limiteGuardado && totalGastosFiltrado > limiteGuardado"
@@ -74,27 +74,27 @@
         </div>
 
         <div class="flex flex-wrap gap-10 justify-center w-full mb-14">
-            <div class="bg-white/10 backdrop-blur rounded-2xl p-8 shadow-xl flex flex-col items-center border border-blue-400/20">
+            <div class="bg-primary/30 backdrop-blur rounded-2xl p-8 shadow-xl flex flex-col items-center border border-secondary/20">
                 <BarCharts :transacciones="transaccionesFiltradas" />
             </div>
-            <div class="bg-white/10 backdrop-blur rounded-2xl p-8 shadow-xl flex flex-col items-center border border-blue-400/20">
+            <div class="bg-primary/30 backdrop-blur rounded-2xl p-8 shadow-xl flex flex-col items-center border border-secondary/20">
                 <PieChart :transacciones="transaccionesFiltradas" :categorias="categorias" />
             </div>
         </div>
 
         <div class="mb-10">
             <button @click="showModal = true"
-                class="transition-colors bg-[#0a1e2e] hover:bg-blue-950 cursor-pointer text-white rounded-full px-10 py-3 text-xl font-bold shadow-lg tracking-wide">
+                class="transition-colors bg-primary hover:bg-primary/80 cursor-pointer text-secondary rounded-full px-10 py-3 text-xl font-bold shadow-lg tracking-wide">
                 Añadir Transacción +
             </button>
         </div>
 
         <transition name="fade">
         <div v-if="showModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-8 w-full max-w-md relative border-2 border-blue-200 animate-modal">
+            <div class="bg-white text-primary rounded-2xl shadow-2xl p-8 w-full max-w-md relative border-2 border-secondary animate-modal">
                 <button @click="showModal = false"
-                    class="absolute top-3 right-3 text-[#0a1e2e] text-3xl font-bold transition-transform hover:scale-125">&times;</button>
-                <h2 class="text-2xl font-bold mb-4 text-center text-[#0a1e2e]">Nueva Transacción</h2>
+                    class="absolute top-3 right-3 text-primary text-3xl font-bold transition-transform hover:scale-125">&times;</button>
+                <h2 class="text-2xl font-bold mb-4 text-center text-primary">Nueva Transacción</h2>
                 <form @submit.prevent="addTransaccion" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Fecha</label>
@@ -134,7 +134,7 @@
                             required />
                     </div>
                     <button type="submit"
-                        class="w-full bg-[#0a1e2e] text-white rounded-lg py-2 font-semibold mt-2 transition-colors shadow">Añadir</button>
+                        class="w-full bg-primary text-secondary rounded-lg py-2 font-semibold mt-2 transition-colors shadow">Añadir</button>
                 </form>
             </div>
         </div>
@@ -142,25 +142,25 @@
 
         <transition name="fade">
         <div v-if="showCatModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div class="bg-white text-gray-900 rounded-2xl shadow-2xl p-6 w-full max-w-xs relative border-2 border-blue-200 animate-modal">
+            <div class="bg-white text-primary rounded-2xl shadow-2xl p-6 w-full max-w-xs relative border-2 border-secondary animate-modal">
                 <button @click="showCatModal = false"
-                    class="absolute top-2 right-3 bg-[#0a1e2e] text-3xl font-bold transition-transform hover:scale-125">&times;</button>
-                <h2 class="text-xl font-bold mb-4 text-center bg-[#0a1e2e]">Nueva Categoría</h2>
+                    class="absolute top-2 right-3 text-primary text-3xl font-bold transition-transform hover:scale-125">&times;</button>
+                <h2 class="text-xl font-bold mb-4 text-center text-primary">Nueva Categoría</h2>
                 <form @submit.prevent="addCategoria" class="space-y-4">
                     <input v-model="nuevaCategoria" type="text" placeholder="Nombre de la categoría"
-                        class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2  transition-shadow" required />
+                        class="w-full rounded-lg px-3 py-2 border border-secondary/30 text-primary focus:outline-none focus:ring-2 focus:ring-secondary/40 transition-shadow" required />
                     <button type="submit"
-                        class="w-full bg-[#0a1e2e] text-white rounded-lg py-2 font-semibold transition-colors shadow">Añadir</button>
+                        class="w-full bg-primary text-secondary rounded-lg py-2 font-semibold transition-colors shadow">Añadir</button>
                 </form>
             </div>
         </div>
         </transition>
 
         <div class="container mx-auto p-4 mt-8 w-full max-w-5xl pb-20">
-            <div class="overflow-x-auto rounded-2xl shadow-xl border border-blue-400/20 bg-white/10">
+            <div class="overflow-x-auto rounded-2xl shadow-xl border border-secondary/20 bg-primary/30">
                 <table class="w-full bg-transparent">
                     <thead>
-                        <tr class="bg-blue text-white uppercase text-sm font-semibold">
+                        <tr class="bg-primary text-white uppercase text-sm font-semibold">
                             <th class="py-4 px-6 text-left">Fecha</th>
                             <th class="py-4 px-6 text-left">Tipo</th>
                             <th class="py-4 px-6 text-left">Categoría</th>
@@ -171,8 +171,8 @@
                     <tbody>
                         <tr v-for="(t, idx) in transaccionesFiltradas" :key="idx" :class=" [
                             'border-b transition-colors',
-                            idx % 2 === 0 ? 'bg-white/20 hover:bg-blue-100/20' : 'hover:bg-white/10',
-                            t.tipo === 'Ingreso' ? 'text-green-700' : 'text-red-700'
+                            idx % 2 === 0 ? 'bg-primary/20 hover:bg-secondary/10' : 'hover:bg-primary/10',
+                            t.tipo === 'Ingreso' ? 'text-green-400' : 'text-amber-500'
                         ]">
                             <td class="py-4 px-6">{{ formatFecha(t.fecha) }}</td>
                             <td class="py-4 px-6">{{ t.tipo }}</td>
@@ -183,7 +183,7 @@
                                 'currency', currency: 'EUR' }) }}</td>
                         </tr>
                         <tr v-if="!transaccionesFiltradas.length">
-                            <td colspan="5" class="text-center py-8 text-gray-400">No hay transacciones en este mes.</td>
+                            <td colspan="5" class="text-center py-8 text-secondary">No hay transacciones en este mes.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -323,11 +323,30 @@ const saldoFiltrado = computed(() => totalIngresosFiltrado.value - totalGastosFi
 
 <style scoped>
 .bg-gradient {
-    background: linear-gradient(to bottom, var(--primary-color), #1b2d3f);
+    background: linear-gradient(to bottom, var(--primary-color), #142d40);
     border-radius: 0px 0px 100px 100px;
 }
 .bg-blue {
     background-color: var(--primary-color);
+}
+
+:root {
+    --primary-color: #0a1e2e;
+    --secondary-color: #f5f3ff;
+}
+
+/* Utility classes for the new color scheme */
+.bg-primary {
+    background-color: var(--primary-color);
+}
+.bg-secondary {
+    background-color: var(--secondary-color);
+}
+.text-primary {
+    color: var(--primary-color);
+}
+.text-secondary {
+    color: var(--secondary-color);
 }
 
 @keyframes modalIn {

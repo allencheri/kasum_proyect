@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gradient text-white flex flex-col items-center pt-30 mb-20">
+  <div class="bg-personalizar text-white flex flex-col items-center pt-30 mb-20">
     <h1 class="text-5xl font-extrabold mb-2 mt-5 drop-shadow-lg tracking-tight">Ajustes</h1>
     <p class="text-lg text-blue-100 mb-10">Personaliza tu experiencia y gestiona tu cuenta</p>
 
@@ -664,7 +664,6 @@ function saveNotificationSettings() {
 
 function exportUserData() {
   try {
-    
     const data = {
       perfil: {
         nombre: user.value.nombre,
@@ -726,7 +725,10 @@ function showToast(message: string, type: 'success' | 'error') {
 </script>
 
 <style scoped>
-
+.bg-personalizar {
+    background: linear-gradient(to bottom, var(--primary-color), #1b2d3f);
+    min-height: 100vh;
+}
 
 @keyframes modalIn {
   from { transform: translateY(40px) scale(0.97); opacity: 0; }
