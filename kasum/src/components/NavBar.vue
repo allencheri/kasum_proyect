@@ -36,21 +36,10 @@
                 <span
                     class="absolute left-0 bottom-0 w-0 h-1 bg-blue-400 rounded-full transition-all duration-300 group-hover:w-full"></span>
             </router-link>
-
-            <button @click="isOpenUserMenu = !isOpenUserMenu"
-                class="relative text-lg px-5 py-2 text-white rounded-full hover:text-blue-300 transition-all duration-300 cursor-pointer group">
-                <img src="/user.svg" alt="user" class="w-8 h-8 rounded-full transition-transform" />
-                <span
-                    class="absolute left-0 bottom-0 w-0 h-1 bg-blue-400 rounded-full transition-all duration-300 group-hover:w-full"></span>
-            </button>
-              
-        </div>
-        <div v-if="isOpenUserMenu" class="bg-white/40 absolute mt-20 mr-10 h-20 right-0 top-0 w-40 rounded-xl shadow-xl p-4 text-center">
-            <button @click="logout()" class="relative font-light text-white rounded-full hover:text-blue-300 transition-all duration-300 cursor-pointer">
+           <button @click="logout()"   class="relative text-lg px-5 py-2 text-white rounded-full hover:text-blue-300 transition-all duration-300 cursor-pointer group">
                 Cerrar Sesion
             </button>
         </div>
-      
     </div>
 </template>
 

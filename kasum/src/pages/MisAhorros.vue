@@ -462,6 +462,22 @@ function getEstimatedCompletion(jar: Jar): string {
 </script>
 
 <style scoped>
+
+h1,
+h2,
+h3 {
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: lighter;
+}
+
+p,
+button,
+a,
+span {
+  font-family: "Biryani", sans-serif;
+  font-weight: light;
+}
+
 .bg-personalizar {
     background: linear-gradient(to bottom, var(--primary-color), #142d40);
     min-height: 100vh;

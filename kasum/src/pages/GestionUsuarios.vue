@@ -22,7 +22,6 @@
                 </button>
             </header>
 
-            <!-- Users Table -->
             <div
                 class="bg-gray-900/90 backdrop-blur-xl shadow-xl rounded-2xl p-6 overflow-x-auto border border-blue-500/20">
                 <table class="w-full text-sm text-left text-gray-100 bg-gray-900">
@@ -94,7 +93,6 @@
                 </div>
             </div>
 
-            <!-- Modal for Adding/Editing User -->
             <transition name="modal">
                 <div v-if="showModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
                     <div
@@ -246,7 +244,6 @@ async function saveUser() {
             const { password, ...userData } = form.value;
             await updateUser(form.value.id, userData);
         } else {
-            // Elimina el campo id antes de enviar al backend
             const { id, ...userData } = form.value;
             await createUser(userData);
         }
@@ -259,7 +256,6 @@ async function saveUser() {
 
 async function handleDeleteUser(id: number) {
     error.value = '';
-    // Asegura que el id es un número y muestra confirmación
     if (!id || isNaN(Number(id))) {
         error.value = 'ID de usuario inválido.';
         return;
@@ -281,7 +277,21 @@ const closeModal = () => {
 </script>
 
 <style scoped>
-/* Animations */
+h1,
+h2,
+h3 {
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: lighter;
+}
+
+p,
+button,
+a,
+span {
+  font-family: "Biryani", sans-serif;
+  font-weight: light;
+}
+
 @keyframes slide-in {
     from {
         opacity: 0;

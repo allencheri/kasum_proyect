@@ -496,14 +496,6 @@ function loadUserData() {
       email: user.value.email
     };
     
-    if (!user.value.paymentMethod && user.value.plan !== 'Gratis') {
-      user.value.paymentMethod = {
-        type: 'Visa',
-        last4: '4242',
-        expMonth: '12',
-        expYear: '25'
-      };
-    }
   } catch (error) {
     showToast('Error al cargar datos del usuario', 'error');
   }
@@ -725,6 +717,21 @@ function showToast(message: string, type: 'success' | 'error') {
 </script>
 
 <style scoped>
+h1,
+h2,
+h3 {
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: lighter;
+}
+
+p,
+button,
+a,
+span {
+  font-family: "Biryani", sans-serif;
+  font-weight: light;
+}
+
 .bg-personalizar {
     background: linear-gradient(to bottom, var(--primary-color), #1b2d3f);
     min-height: 100vh;

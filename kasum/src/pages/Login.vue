@@ -65,7 +65,7 @@ async function handleLogin() {
         return
     }
     try {
-        // Cambia la URL por la de tu backend real
+       
         const res = await fetch('http://localhost:3000/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -85,6 +85,21 @@ async function handleLogin() {
 </script>
 
 <style scoped>
+h1,
+h2,
+h3 {
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: lighter;
+}
+
+p,
+button,
+a,
+span {
+  font-family: "Biryani", sans-serif;
+  font-weight: light;
+}
+
 @keyframes fade-in {
     from {
         opacity: 0;

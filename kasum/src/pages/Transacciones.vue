@@ -322,6 +322,21 @@ const saldoFiltrado = computed(() => totalIngresosFiltrado.value - totalGastosFi
 </script>
 
 <style scoped>
+h1,
+h2,
+h3 {
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: lighter;
+}
+
+p,
+button,
+a,
+span {
+  font-family: "Biryani", sans-serif;
+  font-weight: light;
+}
+
 .bg-gradient {
     background: linear-gradient(to bottom, var(--primary-color), #142d40);
     border-radius: 0px 0px 100px 100px;
@@ -335,7 +350,7 @@ const saldoFiltrado = computed(() => totalIngresosFiltrado.value - totalGastosFi
     --secondary-color: #f5f3ff;
 }
 
-/* Utility classes for the new color scheme */
+
 .bg-primary {
     background-color: var(--primary-color);
 }

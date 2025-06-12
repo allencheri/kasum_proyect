@@ -155,19 +155,25 @@ const getStarted = () => { };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Biryani:wght@400;600;800&family=Khula:wght@400;600&display=swap');
+h1,
+h2,
+h3 {
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: lighter;
+}
+
+p,
+button,
+a,
+span {
+  font-family: "Biryani", sans-serif;
+  font-weight: light;
+}
 
 .bg {
     background-image: url('/background.jpg');
 }
 
-h1, h2, h3 {
-    font-family: 'Hammersmith One', sans-serif !important;
-}
-
-p, button {
-    font-family: 'Biryani', sans-serif !important;
-}
 
 ul, li, span, small, .text-sm, .text-xs {
     font-family: 'Khula', sans-serif !important;

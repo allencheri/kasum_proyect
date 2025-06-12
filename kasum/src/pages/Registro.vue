@@ -135,6 +135,21 @@ async function handleRegister() {
 </script>
 
 <style scoped>
+h1,
+h2,
+h3 {
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: lighter;
+}
+
+p,
+button,
+a,
+span {
+  font-family: "Biryani", sans-serif;
+  font-weight: light;
+}
+
 @keyframes fade-in {
     from {
         opacity: 0;
