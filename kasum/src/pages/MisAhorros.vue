@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-personalizar text-white min-h-screen flex flex-col">
-        <div class="hero-section text-center py-16 relative overflow-hidden">
+    <div class=" text-white min-h-screen flex flex-col">
+        <div class="hero-section mt-30 text-center py-16 relative overflow-hidden">
             
             <div class="relative z-10 max-w-5xl mx-auto px-4">
                 <h1 class="text-5xl font-extrabold mb-4 text-white drop-shadow-lg animate-fadeIn tracking-tight">
@@ -11,7 +11,7 @@
                 </p>
                 <div class="mt-10">
                     <button @click="showModal = true"
-                        class="bg-primary hover:bg-primary/80 text-secondary px-8 py-3 rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer flex items-center mx-auto gap-2"
+                        class="bg-primary hover:bg-primary/80 text-secondary px-8 py-3  rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer flex items-center mx-auto gap-2"
                         aria-label="Añadir nueva meta de ahorro">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
@@ -21,21 +21,22 @@
                 </div>
             </div>
         </div>
+       
 
-        <div v-if="jars.length > 0" class="container mx-auto px-4 py-10 relative">
+        <div v-if="jars.length > 0" class="container mx-auto px-4 py-5 relative">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div class="bg-primary/30 backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
+                <div class="bg-primary backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
                     <h3 class="text-lg text-secondary mb-2">Total Ahorrado</h3>
-                    <p class="text-3xl font-bold text-white">{{ totalSaved.toLocaleString() }}€</p>
+                    <p class="text-3xl font-bold">{{ totalSaved.toLocaleString() }}€</p>
                 </div>
-                <div class="bg-primary/30 backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
+                <div class="bg-primary backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
                     <h3 class="text-lg text-secondary mb-2">Meta Total</h3>
-                    <p class="text-3xl font-bold text-white">{{ totalGoal.toLocaleString() }}€</p>
+                    <p class="text-3xl font-bold">{{ totalGoal.toLocaleString() }}€</p>
                 </div>
-                <div class="bg-primary/30 backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
+                <div class="bg-primary backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
                     <h3 class="text-lg text-secondary mb-2">Progreso General</h3>
                     <div class="flex items-center gap-3">
-                        <div class="text-3xl font-bold text-white">{{ overallProgress }}%</div>
+                        <div class="text-3xl font-bold">{{ overallProgress }}%</div>
                         <div class="flex-grow h-3 bg-white/20 rounded-full overflow-hidden">
                             <div class="h-full bg-gradient-to-r from-amber-500 to-amber-300" :style="`width: ${overallProgress}%`"></div>
                         </div>
@@ -44,15 +45,15 @@
             </div>
         </div>
 
-        <div v-if="jars.length === 0" class="container mx-auto px-4 py-12 text-center">
-            <div class="max-w-lg mx-auto bg-primary/30 backdrop-blur-sm p-10 rounded-2xl border border-secondary/20 shadow-xl">
+        <div v-if="jars.length === 0" class="container mx-auto px-4 py-12 mt-35 text-center">
+            <div class="max-w-lg mx-auto bg-primary backdrop-blur-sm p-10 rounded-2xl border border-secondary/20 shadow-xl">
                 <svg class="mx-auto h-24 w-24 text-secondary/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M12 8a2.99 2.99 0 0 1-2.599-1C8.882 6.4 9.4 6 10 6h4c.6 0 1.118.4.599 1A2.99 2.99 0 0 1 12 8Z" />
                 </svg>
                 <h2 class="text-3xl font-bold mt-6 mb-3">¡Empieza a ahorrar!</h2>
                 <p class="text-secondary mb-8">Aún no tienes metas de ahorro. Crea tu primera meta para comenzar tu viaje hacia la libertad financiera.</p>
                 <button @click="showModal = true"
-                    class="bg-primary hover:bg-primary/80 text-secondary px-8 py-3 rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer">
+                    class="bg-primary hover:bg-primary/80 text-secondary px-8 py-3  rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer">
                     Crear Mi Primera Meta
                 </button>
             </div>
@@ -60,93 +61,104 @@
         
         <div v-if="jars.length > 0" class="container mx-auto px-4 py-10 mb-12">
             <h2 class="text-3xl font-bold mb-8 text-center">Mis Metas de Ahorro</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div class="grid grid-cols-4 gap-8 ">
                 <div v-for="jar in jars" :key="jar.id"
-                    class="relative neomorfismo flex flex-col justify-between p-6 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 hover:scale-[1.02]">
-                    <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-primary to-primary/70 text-secondary px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-                        {{ jar.name }}
-                    </div>
-                    
-                    <div class="w-[180px] h-[250px] mx-auto relative mt-8 mb-4">
-                        <img :src="getJarImage(jar)" alt="Jarra de ahorros"
-                            class="w-full h-full object-contain transition-opacity duration-500" />
-                        <div class="absolute inset-0 flex items-end"
-                            :style="{ height: `${jar.fillHeight}px`, transition: 'height 1.5s ease-in-out' }">
-                            <div class="w-full bg-gradient-to-t from-amber-500 to-amber-300 opacity-70 animate-pulse-slow"></div>
-                        </div>
-                        <div class="absolute left-[-30px] h-full flex flex-col justify-between text-secondary text-xs font-semibold text-right">
-                            <div class="pr-1 py-1 bg-primary/50 rounded-l-lg">{{ jar.goal.toLocaleString() }}€</div>
-                            <div class="pr-1 py-1 bg-primary/50 rounded-l-lg">{{ Math.floor(jar.goal / 2).toLocaleString() }}€</div>
-                            <div class="pr-1 py-1 bg-primary/50 rounded-l-lg">0€</div>
-                        </div>
-                    </div>
-
-                    <div class="text-center mt-4">
-                        <div class="text-lg text-secondary font-medium">
-                            Ahorrado: <span class="text-amber-500 font-bold">{{ jar.saved.toLocaleString() }}€</span>
-                            / {{ jar.goal.toLocaleString() }}€
-                        </div>
-                        <div class="w-full bg-white/20 rounded-full h-2.5 mt-3 mb-1 overflow-hidden">
-                            <div :class="`h-full rounded-full ${getProgressColorClass(jar)}`" 
-                                :style="`width: ${Math.round((jar.saved / jar.goal) * 100) || 0}%`"></div>
-                        </div>
-                        <div class="mb-4 text-sm text-secondary">
-                            {{ Math.round((jar.saved / jar.goal) * 100) || 0 }}% completado
-                        </div>
-                    </div>
-
-                    <form @submit.prevent="addSavings(jar.id)" class="flex justify-center space-x-2 mt-2">
-                        <div class="relative flex-1">
-                            <input v-model.number="jar.amountToAdd" type="number" placeholder="0"
-                                class="pl-7 pr-2 py-2 border bg-primary/20 text-white placeholder-secondary/70 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 w-full transition-all duration-300"
-                                min="0" aria-label="Cantidad a añadir en euros" />
-                            <span class="absolute left-2 top-1/2 transform -translate-y-1/2 text-secondary/70">€</span>
-                        </div>
-                        <button type="submit"
-                            class="bg-primary hover:bg-primary/80 cursor-pointer text-secondary px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-1"
-                            :disabled="!jar.amountToAdd || jar.amountToAdd <= 0">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                            </svg>
-                            Añadir
-                        </button>
-                    </form>
-
-                    <div class="absolute top-3 right-3">
+                    class="relative bg-primary backdrop-blur-sm rounded-2xl border border-secondary/20 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 hover:scale-[1.02] flex flex-col w-full">
+                    <div class="bg-gradient-to-r from-primary to-primary/70 py-3 px-4 flex items-center justify-between">
+                        <h3 class="font-bold text-lg text-secondary">{{ jar.name }}</h3>
                         <button @click="confirmDeleteJar(jar)" 
-                            class="text-secondary/70 hover:text-red-500 transition-colors duration-300 p-1">
+                            class="text-secondary/70 hover:text-red-500 cursor-pointer transition-colors duration-300 p-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                             </svg>
                         </button>
                     </div>
+                    
+                    <div class="p-5 flex flex-col items-center flex-grow">
+                        <div class="relative w-[120px] h-[180px] mb-6">
+                            <img :src="getJarImage(jar)" alt="Jarra de ahorros" class="w-full h-full object-contain" />
+                           
+                        </div>
+                        
+                        <div class="w-full">
+                            <div class="mb-4">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm text-secondary">Progreso</span>
+                                    <span class="text-sm font-medium text-amber-400">{{ Math.round((jar.saved / jar.goal) * 100) || 0 }}%</span>
+                                </div>
+                                <div class="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+                                    <div :class="`h-full rounded-full ${getProgressColorClass(jar)}`" 
+                                        :style="`width: ${Math.round((jar.saved / jar.goal) * 100) || 0}%; transition: width 1s ease-in-out;`"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-2 mb-4">
+                                <div class="bg-primary/30 rounded-lg p-2 text-center">
+                                    <div class="text-xs text-secondary mb-1">Ahorrado</div>
+                                    <div class="text-lg font-bold text-amber-400">{{ jar.saved.toLocaleString() }}€</div>
+                                </div>
+                                <div class="bg-primary/30 rounded-lg p-2 text-center">
+                                    <div class="text-xs text-secondary mb-1">Meta</div>
+                                    <div class="text-lg font-bold text-white">{{ jar.goal.toLocaleString() }}€</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between text-sm mb-4">
+                                <div class="text-secondary">
+                                    <span class="text-white font-medium">{{ (jar.goal - jar.saved).toLocaleString() }}€</span> restantes
+                                </div>
+                                <div v-if="jar.saved > 0" class="text-secondary">
+                                    <span class="text-white font-medium">{{ getEstimatedCompletion(jar) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-primary/30 p-4 border-t border-secondary/10">
+                        <form @submit.prevent="addSavings(jar.id)" class="flex justify-center space-x-2">
+                            <div class="relative flex-1">
+                                <input v-model.number="jar.amountToAdd" type="number" placeholder="0"
+                                    class="pl-7 pr-2 py-2 border bg-primary/20 text-white placeholder-secondary/70 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/40 w-full transition-all duration-300"
+                                    min="0" aria-label="Cantidad a añadir en euros" />
+                                <span class="absolute left-2 top-1/2 transform -translate-y-1/2 text-secondary/70">€</span>
+                            </div>
+                            <button type="submit"
+                                class="bg-primary hover:bg-primary/80 cursor-pointer text-secondary px-4 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center gap-1"
+                                :disabled="!jar.amountToAdd || jar.amountToAdd <= 0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                                </svg>
+                                Añadir
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="container mx-auto px-4 py-10 bg-primary/40 rounded-3xl mt-10 mb-16 max-w-5xl">
-            <h2 class="text-3xl font-bold mb-8 text-center">Consejos para Ahorrar</h2>
+
+         <div class="container mx-auto px-4 py-10 rounded-3xl mt-0 mb-16 max-w-5xl">
+            <h2 class="text-3xl font-bold mb-8 text-center text-primary">Consejos para Ahorrar</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-primary/30 backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
+                <div class="bg-primary backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
                     <div class="text-amber-500 text-4xl mb-4">🎯</div>
                     <h3 class="text-xl font-semibold mb-2">Define metas claras</h3>
                     <p class="text-secondary">Establece objetivos específicos y medibles para mantener tu motivación.</p>
                 </div>
-                <div class="bg-primary/30 backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
+                <div class="bg-primary backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
                     <div class="text-amber-500 text-4xl mb-4">📅</div>
                     <h3 class="text-xl font-semibold mb-2">Ahorra regularmente</h3>
                     <p class="text-secondary">Crea un hábito de ahorro constante, aunque sean pequeñas cantidades.</p>
                 </div>
-                <div class="bg-primary/30 backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
+                <div class="bg-primary backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-xl">
                     <div class="text-amber-500 text-4xl mb-4">📊</div>
                     <h3 class="text-xl font-semibold mb-2">Visualiza tu progreso</h3>
                     <p class="text-secondary">Celebra tus logros y mantén visible tu avance hacia tus metas.</p>
                 </div>
             </div>
         </div>
-
+        
         <transition name="modal">
-            <div v-if="showModal" class="fixed inset-0 bg-black/90 bg-opacity-60 flex items-center justify-center z-50">
+            <div v-if="showModal" class="fixed inset-0 bg-black/70 bg-opacity-60 flex items-center justify-center z-50">
                 <div class="bg-primary/40 backdrop-blur-lg p-8 rounded-2xl w-full max-w-md shadow-2xl animate-slideUp border border-secondary/20">
                     <h2 class="text-3xl font-bold text-white mb-6">Nueva Meta de Ahorro</h2>
                     <form @submit.prevent="addNewGoal">
@@ -186,7 +198,7 @@
         </transition>
 
         <transition name="modal">
-            <div v-if="showDeleteModal" class="fixed inset-0 bg-black/90 bg-opacity-60 flex items-center justify-center z-50">
+            <div v-if="showDeleteModal" class="fixed inset-0 bg-black/40 bg-opacity-60 flex items-center justify-center z-50">
                 <div class="bg-primary/40 backdrop-blur-lg p-8 rounded-2xl w-full max-w-md shadow-2xl animate-slideUp border border-secondary/20">
                     <h2 class="text-2xl font-bold text-white mb-3">Eliminar Meta</h2>
                     <p class="text-secondary mb-6">
@@ -426,6 +438,27 @@ function showToast(message: string, type: 'success' | 'error' | 'warning' = 'suc
         toastMessage.value = ''
     }, 3000)
 }
+
+function getEstimatedCompletion(jar: Jar): string {
+    if (jar.saved >= jar.goal) return "¡Completado!"
+    
+    if (jar.saved <= 0) return "Sin estimar"
+    
+    const monthlySavingRate = jar.saved * 0.1
+    
+    const remainingAmount = jar.goal - jar.saved
+    const remainingMonths = Math.ceil(remainingAmount / monthlySavingRate)
+    
+    if (remainingMonths < 1) return "Menos de 1 mes"
+    if (remainingMonths === 1) return "1 mes aprox."
+    if (remainingMonths < 12) return `${remainingMonths} meses aprox.`
+    
+    const years = Math.floor(remainingMonths / 12)
+    const months = remainingMonths % 12
+    
+    if (months === 0) return `${years} ${years === 1 ? 'año' : 'años'} aprox.`
+    return `${years} ${years === 1 ? 'año' : 'años'} y ${months} ${months === 1 ? 'mes' : 'meses'} aprox.`
+}
 </script>
 
 <style scoped>
@@ -441,13 +474,11 @@ function showToast(message: string, type: 'success' | 'error' | 'warning' = 'suc
     border: 1px solid rgba(245, 243, 255, 0.2);
 }
 
-/* Define custom colors using CSS variables */
 :root {
     --primary-color: #0a1e2e;
     --secondary-color: #f5f3ff;
 }
 
-/* Utility classes for the new color scheme */
 .bg-primary {
     background-color: var(--primary-color);
 }
@@ -461,7 +492,6 @@ function showToast(message: string, type: 'success' | 'error' | 'warning' = 'suc
     color: var(--secondary-color);
 }
 
-/* Animations and transitions remain unchanged */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -529,7 +559,6 @@ function showToast(message: string, type: 'success' | 'error' | 'warning' = 'suc
     animation: pulse-slow 3s infinite;
 }
 
-/* Transitions */
 .modal-enter-active,
 .modal-leave-active {
     transition: opacity 0.3s ease;

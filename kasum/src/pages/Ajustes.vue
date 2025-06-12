@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-personalizar text-white flex flex-col items-center pt-30 mb-20">
+  <div class="bg-personalizar text-white flex flex-col items-center pt-40 mb-20">
     <h1 class="text-5xl font-extrabold mb-2 mt-5 drop-shadow-lg tracking-tight">Ajustes</h1>
     <p class="text-lg text-blue-100 mb-10">Personaliza tu experiencia y gestiona tu cuenta</p>
 

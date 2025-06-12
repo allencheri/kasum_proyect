@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gradient text-white flex flex-col items-center pt-30 mb-20">
+    <div class="bg-gradient text-white flex flex-col items-center pt-40 mb-20">
         <h1 class="text-5xl font-extrabold mb-2 mt-5 drop-shadow-lg tracking-tight">Transacciones</h1>
         <p class="text-lg text-secondary mb-10">Gestiona tus transacciones y visualiza tus finanzas de forma profesional</p>
 
