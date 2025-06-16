@@ -12,11 +12,11 @@ export const useTransaccionesStore = defineStore('transacciones', () => {
     async function agregar(transaccion: any) {
         // Asegura que los campos sean correctos antes de enviar
         const nueva = await addTransaccion({
-            fecha: transaccion.fecha,
             tipo: transaccion.tipo,
-            categoria: transaccion.categoria,
             descripcion: transaccion.descripcion,
-            importe: Number(transaccion.importe)
+            importe: Number(transaccion.importe),
+            fecha: transaccion.fecha,
+            categoria: transaccion.categoria,
         })
         transacciones.value.unshift(nueva)
     }

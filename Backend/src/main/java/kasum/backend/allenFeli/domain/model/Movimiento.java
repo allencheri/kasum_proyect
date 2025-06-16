@@ -28,7 +28,6 @@ public class Movimiento {
     private Double monto;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime fecha;
-    private String catgoria;
-    @ManyToOne
-    private Usuario usuario;
+    private String categoria;
+    
 }
