@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .anyRequest().authenticated()
             )
-            .httpBasic(Customizer.withDefaults()) // o usa JWT si luego lo implementas
+            .httpBasic(Customizer.withDefaults()) 
             .exceptionHandling(ex -> ex.accessDeniedPage("/accessError"));
 
         return http.build();

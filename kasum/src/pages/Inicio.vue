@@ -44,19 +44,22 @@
               <p class="text-xs text-secondary mb-1">Ingresos</p>
               <p class="text-xl font-semibold text-green-400">+{{ monthlyIncome.toLocaleString('es-ES', {
                 style:
-                  'currency', currency: 'EUR' }) }}</p>
+                  'currency', currency: 'EUR'
+              }) }}</p>
             </div>
             <div class="bg-primary/40 p-3 rounded-lg">
               <p class="text-xs text-secondary mb-1">Gastos</p>
               <p class="text-xl font-semibold text-red-400">-{{ monthlyExpenses.toLocaleString('es-ES', {
                 style:
-                  'currency', currency: 'EUR' }) }}</p>
+                  'currency', currency: 'EUR'
+              }) }}</p>
             </div>
             <div class="bg-primary/40 p-3 rounded-lg">
               <p class="text-xs text-secondary mb-1">Balance</p>
               <p class="text-xl font-semibold">{{ monthlyBalance.toLocaleString('es-ES', {
                 style: 'currency', currency:
-                'EUR' }) }}</p>
+                  'EUR'
+              }) }}</p>
             </div>
           </div>
 
@@ -152,7 +155,6 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { Bar } from 'vue-chartjs';
 import { useUserStore } from '../store/store';
 import { getTransacciones } from '../app/jsonapi';
-import { getUserById } from '../app/api';
 import Navbar from '../components/NavBar.vue';
 
 import {
@@ -170,112 +172,87 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 const userStore = useUserStore();
 const userName = computed(() => userStore.user?.nombre || '');
 
-interface Jar {
-  id: string
-  name: string
-  saved: number
-  goal: number
+interface Transaccion {
+  fecha: string
+  tipo: string
+  categoria: string
+  descripcion: string
+  monto: number
+  id?: number
 }
 
-const jars = ref<Jar[]>([]);
+interface Jar {
+    id: string
+    name: string
+    saved: number
+    goal: number
+}
 
-const savings = computed(() => {
-  return jars.value.reduce((total, jar) => total + jar.saved, 0);
+
+
+const transactions = ref<Transaccion[]>([]);
+const monthlyIncome = computed(() => {
+  return transactions.value
+    .filter(t => t.tipo?.toLowerCase() === 'ingreso')
+    .reduce((sum, t) => sum + (t.monto || 0), 0);
 });
 
-const largestGoalJar = computed(() => {
-  if (jars.value.length === 0) return null;
-  return jars.value.reduce((max, jar) => max.goal > jar.goal ? max : jar);
+const monthlyExpenses = computed(() => {
+  return transactions.value
+    .filter(t => t.tipo?.toLowerCase() === 'gasto')
+    .reduce((sum, t) => sum + (t.monto || 0), 0);
 });
-
-const goalName = computed(() => largestGoalJar.value?.name || 'Aún no hay metas');
-const goalAmount = computed(() => largestGoalJar.value?.saved || 0);
-const totalGoal = computed(() => largestGoalJar.value?.goal || 0);
-
-const transactions = ref([]);
-const monthlyIncome = ref(0);
-const monthlyExpenses = ref(0);
-const savingsChange = ref(5);
 
 const monthlyBalance = computed(() => {
   return monthlyIncome.value - monthlyExpenses.value;
 });
 
-const totalMonthlySavings = computed(() => {
-  return savings.value + monthlyBalance.value;
-});
-
-async function fetchJars() {
-  const userId = userStore.user?.id;
-  if (!userId) {
-    jars.value = [];
-    return;
-  }
-  try {
-    const user = await getUserById(userId);
-    jars.value = user.jars || [];
-  } catch (e) {
-    jars.value = [];
-  }
-}
+const totalMonthlySavings = computed(() => monthlyBalance.value);
 
 async function fetchTransactions() {
-  const userId = userStore.user?.id;
-  if (!userId) {
-    transactions.value = [];
-    return;
-  }
-
   try {
-    const now = new Date();
-    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
-    const result = await getTransactions(userId, firstDay, lastDay);
+    const result = await getTransacciones();
     transactions.value = result || [];
 
-    calculateMonthlyFinances();
+    const now = new Date();
+    transactions.value = transactions.value.filter(t => {
+      const transDate = new Date(t.fecha);
+      return transDate.getMonth() === now.getMonth() &&
+        transDate.getFullYear() === now.getFullYear();
+    });
   } catch (e) {
+    console.error('Error fetching transactions:', e);
     transactions.value = [];
   }
 }
 
-function calculateMonthlyFinances() {
-  let income = 0;
-  let expenses = 0;
+const goalName = computed(() => {
+    if (!userStore.user?.jars || userStore.user.jars.length === 0) return '';
+    const biggestGoal = userStore.user.jars.reduce((max, current) => 
+        current.goal > (max?.goal || 0) ? current : max
+    , userStore.user.jars[0]);
+    return biggestGoal.name;
+});
 
-  transactions.value.forEach((transaction: any) => {
-    if (transaction.type === 'ingreso') {
-      income += transaction.amount;
-    } else if (transaction.type === 'gasto') {
-      expenses += transaction.amount;
-    }
-  });
+const goalAmount = computed(() => {
+    if (!userStore.user?.jars || userStore.user.jars.length === 0) return 0;
+    const biggestGoal = userStore.user.jars.reduce((max, current) => 
+        current.goal > (max?.goal || 0) ? current : max
+    , userStore.user.jars[0]);
+    return biggestGoal.saved || 0;
+});
 
-  monthlyIncome.value = income || 0;
-  monthlyExpenses.value = expenses || 0;
-
-  savingsChange.value = Math.round(Math.random() * 20 + 5);
-}
-
-function getGreeting() {
-  const hour = new Date().getHours();
-  if (hour < 12) return "¡Buenos días!";
-  if (hour < 18) return "¡Buenas tardes!";
-  return "¡Buenas noches!";
-}
-
-function getSavingsPercentage() {
-  return Math.round(Math.random() * 20 + 5);
-}
+const totalGoal = computed(() => {
+    if (!userStore.user?.jars || userStore.user.jars.length === 0) return 0;
+    const biggestGoal = userStore.user.jars.reduce((max, current) => 
+        current.goal > (max?.goal || 0) ? current : max
+    , userStore.user.jars[0]);
+    return biggestGoal.goal || 0;
+});
 
 function getGoalPercentage() {
-  if (!totalGoal.value) return 0;
-  return Math.round((goalAmount.value / totalGoal.value) * 100);
-}
-
-function getRandomAmount(min: number, max: number) {
-  return (Math.random() * (max - min) + min).toFixed(2);
+    if (!totalGoal.value) return 0;
+    return Math.min(100, Math.round((goalAmount.value / totalGoal.value) * 100));
 }
 
 function getDailyTip() {
@@ -288,42 +265,65 @@ function getDailyTip() {
     "Revisa tus suscripciones regularmente y elimina las que no uses.",
     "Considera la regla de 24 horas antes de hacer compras importantes."
   ];
-
-  const today = new Date().getDate();
-  return tips[today % tips.length];
+  return tips[new Date().getDate() % tips.length];
 }
 
 onMounted(() => {
-  fetchJars();
   fetchTransactions();
 });
 
 watch(() => userStore.user?.id, () => {
-  fetchJars();
   fetchTransactions();
 });
 
+const savingsChange = computed(() => {
+  const now = new Date();
+  const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+
+  // Filter transactions for previous month
+  const prevMonthTransactions = transactions.value.filter(t => {
+    const transDate = new Date(t.fecha);
+    return transDate.getMonth() === prevMonth.getMonth() &&
+      transDate.getFullYear() === prevMonth.getFullYear();
+  });
+
+  const prevIncome = prevMonthTransactions
+    .filter(t => t.tipo?.toLowerCase() === 'ingreso')
+    .reduce((sum, t) => sum + (t.monto || 0), 0);
+
+  const prevExpenses = prevMonthTransactions
+    .filter(t => t.tipo?.toLowerCase() === 'gasto')
+    .reduce((sum, t) => sum + (t.monto || 0), 0);
+
+  const prevBalance = prevIncome - prevExpenses;
+  if (prevBalance === 0) return 0;
+  return Math.round(((monthlyBalance.value - prevBalance) / Math.abs(prevBalance)) * 100);
+});
+
 const chartData = computed(() => ({
-  labels: ['Progreso'],
-  datasets: [
-    {
-      label: 'Ahorro',
-      backgroundColor: 'rgba(245, 158, 11, 0.7)',
-      borderColor: 'rgba(245, 158, 11, 1)',
-      data: [goalAmount.value],
-      maxBarThickness: 40,
-      borderRadius: 4,
-    },
-    {
-      label: 'Meta',
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      borderColor: 'rgba(255, 255, 255, 0.2)',
-      data: [totalGoal.value],
-      maxBarThickness: 40,
-      borderRadius: 4,
-    },
-  ],
+    labels: ['Progreso'],
+    datasets: [
+        {
+            label: 'Ahorro',
+            backgroundColor: 'rgba(245, 158, 11, 0.7)',
+            borderColor: 'rgba(245, 158, 11, 1)',
+            data: [goalAmount.value],
+            maxBarThickness: 40,
+            borderRadius: 4,
+        },
+        {
+            label: 'Meta',
+            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            data: [totalGoal.value],
+            maxBarThickness: 40,
+            borderRadius: 4,
+        },
+    ],
 }));
+
+watch(() => userStore.user?.jars, () => {
+}, { deep: true });
 
 const chartOptions = computed(() => ({
   responsive: true,
@@ -365,6 +365,62 @@ const chartOptions = computed(() => ({
 }));
 </script>
 
+<style scoped>
+h1,
+h2,
+h3 {
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: lighter;
+}
+
+p,
+button,
+a,
+span {
+  font-family: "Biryani", sans-serif;
+  font-weight: light;
+}
+
+.bg-personalizar {
+  background: linear-gradient(to bottom, var(--primary-color), #142d40);
+  min-height: 100vh;
+}
+
+:root {
+  --primary-color: #0a1e2e;
+  --secondary-color: #f5f3ff;
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-secondary {
+  background-color: var(--secondary-color);
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--secondary-color);
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+</style>
 <style scoped>
 h1,
 h2,

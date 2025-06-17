@@ -30,25 +30,31 @@
                 <span
                     class="absolute left-0 bottom-0 w-0 h-1 bg-blue-400 rounded-full transition-all duration-300 group-hover:w-full"></span>
             </router-link>
-           <button @click="logout()"   class="relative text-lg px-5 py-2 text-white rounded-full hover:text-blue-300 transition-all duration-300 cursor-pointer group">
-                Cerrar Sesion
-            </button>
+            <div class="flex items-center gap-4">
+                <button @click="handleLogout" 
+                    class="px-4 py-2 text-sm font-medium text-white bg-red-600/80 hover:bg-red-700 rounded-lg transition-colors">
+                    Cerrar Sesión
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { useUserStore } from '../store/store'
+import { useRouter } from 'vue-router';
+import { useUserStore } from '../store/store';
 
-const userStore = useUserStore()
+const router = useRouter();
+const userStore = useUserStore();
 
-const logout = () => {
-    userStore.logout()
-    window.location.href = '/'
+async function handleLogout() {
+    try {
+        userStore.logout();
+        router.push('/');
+    } catch (error) {
+        console.error('Error durante el logout:', error);
+    }
 }
-
-const isOpenUserMenu = ref(false);
 </script>
 
 <style scoped>

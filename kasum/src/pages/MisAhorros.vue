@@ -289,21 +289,12 @@ const overallProgress = computed(() => {
 })
 
 async function fetchJars() {
-    const userId = userStore.user?.id
-    if (!userId) {
-        jars.value = []
-        return
-    }
-    try {
-        const user = await getUserById(userId)
-        jars.value = (user.jars || []).map((jar: any) => ({
+    if (userStore.user?.jars) {
+        jars.value = userStore.user.jars.map(jar => ({
             ...jar,
             amountToAdd: 0,
             fillHeight: calculateFillHeight(jar.saved, jar.goal)
-        }))
-    } catch (e) {
-        jars.value = []
-        showToast('Error al cargar tus metas de ahorro', 'error')
+        }));
     }
 }
 
@@ -323,7 +314,7 @@ async function saveJarsToApi() {
 
 onMounted(fetchJars)
 
-watch(() => userStore.user?.id, fetchJars)
+watch(() => userStore.user?.jars, fetchJars, { deep: true });
 
 watch(jars, saveJarsToApi, { deep: true })
 
@@ -352,83 +343,57 @@ const calculateFillHeight = (saved: number, goal: number): number => {
     return percentage * svgHeight
 }
 
-function addSavings(jarId: string) {
-    const jar = jars.value.find((j) => j.id === jarId)
-    if (!jar || jar.amountToAdd <= 0) {
-        showToast('Por favor, introduce una cantidad válida', 'warning')
-        return
+async function addSavings(jarId: string) {
+    const jar = jars.value.find(j => j.id === jarId);
+    if (jar) {
+        jar.saved += jar.amountToAdd || 0;
+        jar.amountToAdd = 0;
+        jar.fillHeight = calculateFillHeight(jar.saved, jar.goal);
+        userStore.updateJar(jar);
+        showToast('Ahorro actualizado exitosamente', 'success');
     }
-
-    const maxAddable = jar.goal - jar.saved
-    if (jar.amountToAdd > maxAddable) {
-        jar.amountToAdd = maxAddable
-        showToast(`No puedes añadir más de ${maxAddable}€`, 'warning')
-    }
-
-    jar.saved += jar.amountToAdd
-    jar.fillHeight = calculateFillHeight(jar.saved, jar.goal)
-    
-    if (jar.saved >= jar.goal) {
-        showToast(`¡Felicidades! Has completado la meta "${jar.name}" 🎉`, 'success')
-    } else {
-        showToast(`¡${jar.amountToAdd}€ añadidos a ${jar.name}!`, 'success')
-    }
-    
-    jar.amountToAdd = 0
-    saveJarsToApi()
 }
 
-function addNewGoal() {
-    newGoalError.value = { name: '', amount: '' }
-
-    if (!newGoal.value.name.trim()) {
-        newGoalError.value.name = 'El nombre de la meta es obligatorio'
-        return
-    }
-    if (newGoal.value.amount <= 0) {
-        newGoalError.value.amount = 'La cantidad debe ser mayor a 0'
-        return
+async function addNewGoal() {
+    if (!newGoal.value.name || !newGoal.value.amount) {
+        newGoalError.value = {
+            name: !newGoal.value.name ? 'El nombre es requerido' : '',
+            amount: !newGoal.value.amount ? 'El monto es requerido' : ''
+        };
+        return;
     }
 
-    jars.value.push({
+    const jar: Jar = {
         id: uuidv4(),
-        name: newGoal.value.name.trim(),
+        name: newGoal.value.name,
         saved: 0,
         goal: newGoal.value.amount,
         amountToAdd: 0,
-        fillHeight: 0 
-    })
-    
-    showToast(`¡Meta "${newGoal.value.name}" creada con éxito!`, 'success')
-    newGoal.value = { name: '', amount: 0 }
-    showModal.value = false
-    
-    setTimeout(() => {
-        const newJar = jars.value[jars.value.length - 1]
-        newJar.fillHeight = calculateFillHeight(newJar.saved, newJar.goal)
-    }, 500)
-    
-    saveJarsToApi()
+        fillHeight: calculateFillHeight(0, newGoal.value.amount)
+    };
+
+    userStore.addJar(jar);
+    jars.value.push(jar);
+    showModal.value = false;
+    newGoal.value = { name: '', amount: 0 };
+    showToast('Meta creada exitosamente', 'success');
 }
+
+
 
 function confirmDeleteJar(jar: Jar) {
     jarToDelete.value = jar
     showDeleteModal.value = true
 }
 
-function deleteJar() {
-    if (!jarToDelete.value) return
-    
-    const index = jars.value.findIndex(j => j.id === jarToDelete.value?.id)
-    if (index !== -1) {
-        const jarName = jars.value[index].name
-        jars.value.splice(index, 1)
-        showToast(`Meta "${jarName}" eliminada`, 'warning')
-        saveJarsToApi()
+async function deleteJar() {
+    if (jarToDelete.value) {
+        userStore.deleteJar(jarToDelete.value.id);
+        jars.value = jars.value.filter(j => j.id !== jarToDelete.value?.id);
+        showDeleteModal.value = false;
+        jarToDelete.value = null;
+        showToast('Meta eliminada exitosamente', 'success');
     }
-    
-    showDeleteModal.value = false
-    jarToDelete.value = null
 }
 
 function showToast(message: string, type: 'success' | 'error' | 'warning' = 'success') {

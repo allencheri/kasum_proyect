@@ -1,11 +1,23 @@
 <template>
     <div class="bg-gradient">
-        <NavBar v-if="$route.path !== '/login' && $route.path !== '/registro'"/>
-       <router-view />
+        <NavBar v-if="$route.path !== '/login' && $route.path !== '/registro' && $route.path !== '/'"/>
+        <router-view />
     </div>
 </template>
+
 <script setup lang="ts">
-    import NavBar from './components/NavBar.vue'
+import NavBar from './components/NavBar.vue'
+import { onMounted } from 'vue'
+import { useUserStore } from './store/store'
+
+const userStore = useUserStore()
+
+onMounted(() => {
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) {
+        userStore.setUser(JSON.parse(savedUser))
+    }
+})
 </script>
 
 <style scoped>

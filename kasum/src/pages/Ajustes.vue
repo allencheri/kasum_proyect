@@ -32,7 +32,6 @@
               <div>
                 <h3 class="text-xl font-semibold">{{ user.nombre }} {{ user.apellido }}</h3>
                 <p class="text-blue-200">{{ user.email }}</p>
-                <p class="text-sm text-blue-300 mt-2">Miembro desde {{ formatDate(user.fechaRegistro) }}</p>
               </div>
             </div>
 
@@ -314,7 +313,7 @@
               </div>
               <div>
                 <label class="block text-blue-200 font-semibold mb-2">CVC</label>
-                <input v-model="paymentForm.cvc" type="text" maxlength="4"
+                <input v-model="paymentForm.cvv" type="text" maxlength="4"
                   class="w-full rounded-lg px-4 py-3 bg-white/20 border border-blue-300 text-white focus:outline-none focus:ring-2 transition-shadow"
                   placeholder="CVC" />
               </div>
@@ -376,16 +375,31 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/store';
+import { updatePassword } from '../app/api';
 
 const router = useRouter();
 const userStore = useUserStore();
 
-const user = ref({
-  id: '1',
-  nombre: 'Usuario',
-  apellido: 'Demo',
-  email: 'usuario@demo.com',
-  fechaRegistro: new Date('2023-01-15'),
+type PaymentMethod = {
+  type: string;
+  last4: string;
+  expMonth: string;
+  expYear: string;
+} | null;
+
+const user = ref<{
+  id: string;
+  nombre: string;
+  apellido: string;
+  email: string;
+  plan: string;
+  nextBillingDate: Date;
+  paymentMethod: PaymentMethod;
+}>({
+  id: '',
+  nombre: '',
+  apellido: '',
+  email: '',
   plan: 'Gratis',
   nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
   paymentMethod: null
@@ -450,7 +464,7 @@ const paymentForm = ref({
   cardHolder: '',
   cardNumber: '',
   expiry: '',
-  cvc: ''
+  cvv: ''
 });
 const notificationSettings = ref({
   expenses: true,
@@ -507,24 +521,13 @@ function formatDate(date: Date | string) {
   return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' });
 }
 
-function updateProfile() {
+async function updateProfile() {
   try {
-    user.value = {
-      ...user.value,
+    await userStore.updateUserSettings({
       nombre: profileForm.value.nombre,
       apellido: profileForm.value.apellido,
       email: profileForm.value.email
-    };
-    
-    if (userStore.user) {
-      userStore.updateUser({
-        ...userStore.user,
-        nombre: profileForm.value.nombre,
-        apellido: profileForm.value.apellido,
-        email: profileForm.value.email
-      });
-    }
-    
+    });
     showToast('Perfil actualizado correctamente', 'success');
   } catch (error) {
     showToast('Error al actualizar el perfil', 'error');
@@ -606,7 +609,7 @@ function savePaymentMethod() {
   }
 }
 
-function changePassword() {
+async function changePassword() {
   passwordError.value = '';
   
   if (!passwordForm.value.current) {
@@ -625,6 +628,10 @@ function changePassword() {
   }
   
   try {
+    await updatePassword(user.value.id, {
+      currentPassword: passwordForm.value.current,
+      newPassword: passwordForm.value.new
+    });
     showToast('Contraseña actualizada correctamente', 'success');
     passwordForm.value = { current: '', new: '', confirm: '' };
   } catch (error) {
@@ -646,8 +653,13 @@ function toggleTwoFactor() {
   }
 }
 
-function saveNotificationSettings() {
+async function saveNotificationSettings() {
   try {
+    await userStore.updateUserSettings({
+      notificationPreferences: {
+        ...notificationSettings.value
+      }
+    });
     showToast('Preferencias de notificaciones guardadas', 'success');
   } catch (error) {
     showToast('Error al guardar las preferencias', 'error');
@@ -661,7 +673,6 @@ function exportUserData() {
         nombre: user.value.nombre,
         apellido: user.value.apellido,
         email: user.value.email,
-        fechaRegistro: user.value.fechaRegistro
       },
       plan: user.value.plan,
     };
@@ -689,18 +700,22 @@ function exportUserData() {
   }
 }
 
-function deleteAccount() {
+async function deleteAccount() {
   if (deleteConfirmation.value !== 'ELIMINAR') return;
   
   try {
+    showDeleteModal.value = false; 
+    
+    await userStore.deleteUserAccount();
+    
     showToast('Cuenta eliminada correctamente', 'success');
     
     setTimeout(() => {
-      userStore.logout();
-      router.push('/');
-    }, 1500);
+      router.push('/login'); 
+    }, 2000);
   } catch (error) {
-    showToast('Error al eliminar la cuenta', 'error');
+    console.error('Error al eliminar cuenta:', error);
+    showToast('Error al eliminar la cuenta. Inténtalo de nuevo.', 'error');
   }
 }
 

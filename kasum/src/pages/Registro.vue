@@ -102,7 +102,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../store/store'
-import { createUser, registerUser } from '../app/api'
+import { registerUser } from '../app/api'
 
 const nombre = ref('')
 const apellido = ref('')
@@ -134,7 +134,7 @@ async function handleRegister() {
         }
         const user = await registerUser(userData)
         userStore.setUser(user)
-        router.push('/')
+        router.push('/login')
     } catch (e: any) {
         error.value = e.message || 'Error en el registro'
     }

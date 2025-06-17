@@ -8,6 +8,7 @@ import kasum.backend.allenFeli.domain.model.Usuario;
 import kasum.backend.allenFeli.repository.UsuarioRepository;
 import kasum.backend.allenFeli.service.UsuarioService;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,16 @@ public class AutenticadorController {
                         loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return ResponseEntity.ok(Map.of("message", "Login exitoso"));
+
+        Usuario usuario = usuarioRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", usuario.getId());
+        response.put("nombre", usuario.getNombre());
+        response.put("email", usuario.getEmail());
+
+        return ResponseEntity.ok(response);
 
     }
 

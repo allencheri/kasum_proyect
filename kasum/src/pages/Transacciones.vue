@@ -1,37 +1,35 @@
 <template>
     <div class="bg-gradient text-white flex flex-col items-center pt-40 mb-20">
         <h1 class="text-5xl font-extrabold mb-2 mt-5 drop-shadow-lg tracking-tight">Transacciones</h1>
-        <p class="text-lg text-secondary mb-10">Gestiona tus transacciones y visualiza tus finanzas de forma profesional</p>
+        <p class="text-lg text-secondary mb-10">Gestiona tus transacciones y visualiza tus finanzas de forma profesional
+        </p>
 
         <div class="mb-10 w-full max-w-3xl flex flex-col sm:flex-row items-center gap-4 justify-between">
             <div class="flex items-center gap-3">
                 <label class="text-secondary font-semibold text-lg">Filtrar por mes:</label>
-                <select v-model="mesSeleccionado" class="rounded-lg px-3 py-2 border border-secondary/30 bg-primary/30 text-white focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-shadow">
+                <select v-model="mesSeleccionado"
+                    class="rounded-lg px-3 py-2 border border-secondary/30 bg-primary/30 text-white focus:outline-none focus:ring-2 focus:ring-secondary/30 transition-shadow">
                     <option value="" class="bg-primary">Todos</option>
                     <option v-for="(mes, idx) in meses" :key="mes" :value="idx" class="bg-primary">{{ mes }}</option>
                 </select>
             </div>
             <div class="flex items-center gap-2 bg-primary/30 px-4 py-2 rounded-xl shadow border border-secondary/30">
                 <template v-if="!limiteGuardado">
-                    <input
-                        v-model.number="limiteInput"
-                        type="number"
-                        min="0"
+                    <input v-model.number="limiteInput" type="number" min="0"
                         class="rounded-lg px-3 py-1 border border-secondary/30 text-white bg-primary/40 focus:outline-none focus:ring-2 transition-shadow w-28"
-                        placeholder="Ej: 1000"
-                    />
+                        placeholder="Ej: 1000" />
                     <span class="text-secondary font-semibold">€</span>
-                    <button type="button"
-                        @click="guardarLimite"
+                    <button type="button" @click="guardarLimite"
                         class="bg-primary hover:bg-primary/80 text-secondary px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
                         Añadir límite
                     </button>
                 </template>
                 <template v-else>
                     <span class="text-secondary font-semibold text-base">Límite mensual:</span>
-                    <span class="rounded-lg px-3 py-1 border border-secondary/30 text-white bg-primary/40 w-28 text-center">{{ limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
-                    <button type="button"
-                        @click="editarLimite"
+                    <span
+                        class="rounded-lg px-3 py-1 border border-secondary/30 text-white bg-primary/40 w-28 text-center">{{
+                            limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
+                    <button type="button" @click="editarLimite"
                         class="bg-primary hover:bg-primary/80 text-secondary px-4 py-1 rounded-full text-sm font-semibold shadow transition cursor-pointer">
                         Editar
                     </button>
@@ -40,33 +38,39 @@
         </div>
 
         <div class="flex flex-wrap gap-8 mb-12 w-full max-w-5xl justify-center">
-            <div class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20">
+            <div
+                class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20">
                 <span class="text-secondary text-base mb-1">Saldo</span>
                 <span class="text-4xl font-extrabold" :class="saldoFiltrado >= 0 ? 'text-green-400' : 'text-red-400'">
                     {{ saldoFiltrado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}
                 </span>
             </div>
-            <div class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20">
+            <div
+                class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20">
                 <span class="text-secondary text-base mb-1">Ingresos</span>
                 <span class="text-3xl font-bold text-green-400">
                     {{ totalIngresosFiltrado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}
                 </span>
             </div>
-            <div class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20 relative">
+            <div
+                class="bg-primary/30 backdrop-blur rounded-2xl px-10 py-8 flex flex-col items-center shadow-xl min-w-[200px] border border-secondary/20 relative">
                 <span class="text-secondary text-base mb-1">Gastos</span>
                 <span class="text-3xl font-bold text-red-400">
                     {{ totalGastosFiltrado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}
                 </span>
                 <div v-if="limiteGuardado" class="flex flex-col items-center mt-2">
-                    <span class="text-secondary text-xs font-semibold mr-2">Límite: {{ limiteGuardado.toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) }}</span>
+                    <span class="text-secondary text-xs font-semibold mr-2">Límite: {{
+                        limiteGuardado.toLocaleString('es-ES', {
+                        style: 'currency', currency: 'EUR' }) }}</span>
                 </div>
-                <div
-                    v-if="limiteGuardado && totalGastosFiltrado > limiteGuardado"
+                <div v-if="limiteGuardado && totalGastosFiltrado > limiteGuardado"
                     class="absolute top-1 right-3 flex items-center bg-white/90 px-3 py-1 rounded-full shadow"
-                    style="pointer-events: none;"
-                >
-                    <svg class="w-5 h-5 text-red-500 animate-pulse" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zm-9 4h.01"></path>
+                    style="pointer-events: none;">
+                    <svg class="w-5 h-5 text-red-500 animate-pulse" fill="none" stroke="currentColor" stroke-width="2"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zm-9 4h.01">
+                        </path>
                     </svg>
                     <span class="text-red-500 font-semibold ml-1 text-xs">¡Superado!</span>
                 </div>
@@ -74,10 +78,12 @@
         </div>
 
         <div class="flex flex-wrap gap-10 justify-center w-full mb-14">
-            <div class="bg-primary/30 backdrop-blur rounded-2xl p-8 shadow-xl flex flex-col items-center border border-secondary/20">
+            <div
+                class="bg-primary/30 backdrop-blur rounded-2xl p-8 shadow-xl flex flex-col items-center border border-secondary/20">
                 <BarCharts :transacciones="transaccionesFiltradas" />
             </div>
-            <div class="bg-primary/30 backdrop-blur rounded-2xl p-8 shadow-xl flex flex-col items-center border border-secondary/20">
+            <div
+                class="bg-primary/30 backdrop-blur rounded-2xl p-8 shadow-xl flex flex-col items-center border border-secondary/20">
                 <PieChart :transacciones="transaccionesFiltradas" :categorias="categorias" />
             </div>
         </div>
@@ -90,70 +96,76 @@
         </div>
 
         <transition name="fade">
-        <div v-if="showModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div class="bg-white text-primary rounded-2xl shadow-2xl p-8 w-full max-w-md relative border-2 border-secondary animate-modal">
-                <button @click="showModal = false"
-                    class="absolute top-3 right-3 text-primary text-3xl font-bold transition-transform hover:scale-125">&times;</button>
-                <h2 class="text-2xl font-bold mb-4 text-center text-primary">Nueva Transacción</h2>
-                <form @submit.prevent="addTransaccion" class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Fecha</label>
-                        <input v-model="form.fecha" type="date"
-                            class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
-                            required />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Tipo</label>
-                        <select v-model="form.tipo" class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" required>
-                            <option value="" disabled>Selecciona</option>
-                            <option value="Gasto">Gasto</option>
-                            <option value="Ingreso">Ingreso</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Categoría</label>
-                        <div class="flex gap-2">
-                            <select v-model="form.categoria" class="flex-1 rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
+            <div v-if="showModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                <div
+                    class="bg-white text-primary rounded-2xl shadow-2xl p-8 w-full max-w-md relative border-2 border-secondary animate-modal">
+                    <button @click="showModal = false"
+                        class="absolute top-3 right-3 text-primary text-3xl font-bold transition-transform hover:scale-125">&times;</button>
+                    <h2 class="text-2xl font-bold mb-4 text-center text-primary">Nueva Transacción</h2>
+                    <form @submit.prevent="submitTransaccion" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Fecha</label>
+                            <input v-model="form.fecha" type="date"
+                                class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
+                                required />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Tipo</label>
+                            <select v-model="form.tipo"
+                                class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
                                 required>
                                 <option value="" disabled>Selecciona</option>
-                                <option v-for="cat in categorias" :key="cat" :value="cat">{{ cat }}</option>
+                                <option value="Gasto">Gasto</option>
+                                <option value="Ingreso">Ingreso</option>
                             </select>
-                            <button type="button" @click="showCatModal = true"
-                                class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg hover:bg-blue-200 text-lg font-bold shadow transition-transform hover:scale-110">+</button>
                         </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Descripción</label>
-                        <input v-model="form.descripcion" type="text"
-                            class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Importe (€)</label>
-                        <input v-model.number="form.importe" type="number" min="0" step="0.01"
-                            class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
-                            required />
-                    </div>
-                    <button type="submit"
-                        class="w-full bg-primary text-secondary rounded-lg py-2 font-semibold mt-2 transition-colors shadow">Añadir</button>
-                </form>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Categoría</label>
+                            <div class="flex gap-2">
+                                <select v-model="form.categoria"
+                                    class="flex-1 rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
+                                    required>
+                                    <option value="" disabled>Selecciona</option>
+                                    <option v-for="cat in categorias" :key="cat" :value="cat">{{ cat }}</option>
+                                </select>
+                                <button type="button" @click="showCatModal = true"
+                                    class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg hover:bg-blue-200 text-lg font-bold shadow transition-transform hover:scale-110">+</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Descripción</label>
+                            <input v-model="form.descripcion" type="text"
+                                class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Importe (€)</label>
+                            <input v-model.number="form.importe" type="number" min="0" step="0.01"
+                                class="w-full rounded-lg px-3 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
+                                required />
+                        </div>
+                        <button type="submit"
+                            class="w-full bg-primary text-secondary rounded-lg py-2 font-semibold mt-2 transition-colors shadow">Añadir</button>
+                    </form>
+                </div>
             </div>
-        </div>
         </transition>
 
         <transition name="fade">
-        <div v-if="showCatModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div class="bg-white text-primary rounded-2xl shadow-2xl p-6 w-full max-w-xs relative border-2 border-secondary animate-modal">
-                <button @click="showCatModal = false"
-                    class="absolute top-2 right-3 text-primary text-3xl font-bold transition-transform hover:scale-125">&times;</button>
-                <h2 class="text-xl font-bold mb-4 text-center text-primary">Nueva Categoría</h2>
-                <form @submit.prevent="addCategoria" class="space-y-4">
-                    <input v-model="nuevaCategoria" type="text" placeholder="Nombre de la categoría"
-                        class="w-full rounded-lg px-3 py-2 border border-secondary/30 text-primary focus:outline-none focus:ring-2 focus:ring-secondary/40 transition-shadow" required />
-                    <button type="submit"
-                        class="w-full bg-primary text-secondary rounded-lg py-2 font-semibold transition-colors shadow">Añadir</button>
-                </form>
+            <div v-if="showCatModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                <div
+                    class="bg-white text-primary rounded-2xl shadow-2xl p-6 w-full max-w-xs relative border-2 border-secondary animate-modal">
+                    <button @click="showCatModal = false"
+                        class="absolute top-2 right-3 text-primary text-3xl font-bold transition-transform hover:scale-125">&times;</button>
+                    <h2 class="text-xl font-bold mb-4 text-center text-primary">Nueva Categoría</h2>
+                    <form @submit.prevent="addCategoria" class="space-y-4">
+                        <input v-model="nuevaCategoria" type="text" placeholder="Nombre de la categoría"
+                            class="w-full rounded-lg px-3 py-2 border border-secondary/30 text-primary focus:outline-none focus:ring-2 focus:ring-secondary/40 transition-shadow"
+                            required />
+                        <button type="submit"
+                            class="w-full bg-primary text-secondary rounded-lg py-2 font-semibold transition-colors shadow">Añadir</button>
+                    </form>
+                </div>
             </div>
-        </div>
         </transition>
 
         <div class="container mx-auto p-4 mt-8 w-full max-w-5xl pb-20">
@@ -169,7 +181,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(t, idx) in transaccionesFiltradas" :key="idx" :class=" [
+                        <tr v-for="(t, idx) in transaccionesFiltradas" :key="idx" :class="[
                             'border-b transition-colors',
                             idx % 2 === 0 ? 'bg-primary/20 hover:bg-secondary/10' : 'hover:bg-primary/10',
                             t.tipo === 'Ingreso' ? 'text-green-400' : 'text-amber-500'
@@ -180,10 +192,12 @@
                             <td class="py-4 px-6">{{ t.descripcion }}</td>
                             <td class="py-4 px-6 font-semibold">{{ t.importe.toLocaleString('es-ES', {
                                 style:
-                                'currency', currency: 'EUR' }) }}</td>
+                                    'currency', currency: 'EUR'
+                            }) }}</td>
                         </tr>
                         <tr v-if="!transaccionesFiltradas.length">
-                            <td colspan="5" class="text-center py-8 text-secondary">No hay transacciones en este mes.</td>
+                            <td colspan="5" class="text-center py-8 text-secondary">No hay transacciones en este mes.
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -240,11 +254,7 @@ async function cargarTransacciones() {
 
 onMounted(cargarTransacciones)
 
-async function addTransaccion() {
-    await store.agregar({ ...form.value })
-    showModal.value = false
-    form.value = { fecha: '', tipo: 'Gasto', categoria: '', descripcion: '', importe: 0 }
-}
+
 
 function addCategoria() {
     const cat = nuevaCategoria.value.trim()
@@ -253,6 +263,30 @@ function addCategoria() {
     }
     nuevaCategoria.value = ''
     showCatModal.value = false
+}
+
+async function submitTransaccion() {
+    try {
+        const transaccionParaBackend = {
+            tipo: form.value.tipo.toLowerCase(),
+            descripcion: form.value.descripcion,
+            monto: Number(form.value.importe),
+            fecha: form.value.fecha + 'T00:00:00',
+            categoria: form.value.categoria
+        };
+
+        await store.agregar(transaccionParaBackend);
+        showModal.value = false;
+        form.value = {
+            fecha: new Date().toISOString().split('T')[0],
+            tipo: 'Gasto',
+            categoria: '',
+            descripcion: '',
+            importe: 0
+        };
+    } catch (error) {
+        console.error('Error al guardar transacción:', error);
+    }
 }
 
 function cargarLimite() {
@@ -292,11 +326,10 @@ const meses = [
 const mesSeleccionado = ref<string | number>('')
 
 function adaptarTransaccion(t: any): Transaccion {
-    if ('tipo' in t && 'categoria' in t && 'importe' in t) return t
     return {
-        fecha: t.fecha,
-        tipo: 'Gasto',
-        categoria: 'Otros',
+        fecha: t.fecha.split('T')[0],
+        tipo: t.tipo.charAt(0).toUpperCase() + t.tipo.slice(1), // Capitaliza la primera letra
+        categoria: t.categoria || 'Otros',
         descripcion: t.descripcion || '',
         importe: t.monto || 0,
         id: t.id
@@ -325,22 +358,23 @@ const saldoFiltrado = computed(() => totalIngresosFiltrado.value - totalGastosFi
 h1,
 h2,
 h3 {
-  font-family: "Hammersmith One", sans-serif;
-  font-weight: lighter;
+    font-family: "Hammersmith One", sans-serif;
+    font-weight: lighter;
 }
 
 p,
 button,
 a,
 span {
-  font-family: "Biryani", sans-serif;
-  font-weight: light;
+    font-family: "Biryani", sans-serif;
+    font-weight: light;
 }
 
 .bg-gradient {
     background: linear-gradient(to bottom, var(--primary-color), #142d40);
     border-radius: 0px 0px 100px 100px;
 }
+
 .bg-blue {
     background-color: var(--primary-color);
 }
@@ -354,27 +388,42 @@ span {
 .bg-primary {
     background-color: var(--primary-color);
 }
+
 .bg-secondary {
     background-color: var(--secondary-color);
 }
+
 .text-primary {
     color: var(--primary-color);
 }
+
 .text-secondary {
     color: var(--secondary-color);
 }
 
 @keyframes modalIn {
-    from { transform: translateY(40px) scale(0.97); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
+    from {
+        transform: translateY(40px) scale(0.97);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
 }
+
 .animate-modal {
-    animation: modalIn 0.25s cubic-bezier(.4,2,.6,1) both;
+    animation: modalIn 0.25s cubic-bezier(.4, 2, .6, 1) both;
 }
-.fade-enter-active, .fade-leave-active {
+
+.fade-enter-active,
+.fade-leave-active {
     transition: opacity 0.2s;
 }
-.fade-enter-from, .fade-leave-to {
+
+.fade-enter-from,
+.fade-leave-to {
     opacity: 0;
 }
 </style>

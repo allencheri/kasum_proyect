@@ -1,29 +1,41 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import { getTransacciones, addTransaccion } from '../app/jsonapi'
 
-export const useTransaccionesStore = defineStore('transacciones', () => {
-    const transacciones = ref<any[]>([])
+interface MovimientoBackend {
+    tipo: string;
+    descripcion: string;
+    monto: number;
+    fecha: string;
+    categoria: string;
+}
 
-    async function cargar() {
-        transacciones.value = await getTransacciones()
+export const useTransaccionesStore = defineStore('transacciones', {
+    state: () => ({
+        transacciones: [] as MovimientoBackend[]
+    }),
+    actions: {
+        async agregar(movimiento: MovimientoBackend) {
+            const response = await fetch('http://localhost:8080/kubera/movimientos/nuevo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(movimiento)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Error al guardar la transacción');
+            }
+            
+            const nuevaTransaccion = await response.json();
+            this.transacciones.unshift(nuevaTransaccion);
+            return nuevaTransaccion;
+        },
+        async cargar() {
+            const response = await fetch('http://localhost:8080/kubera/movimientos/');
+            if (!response.ok) {
+                throw new Error('Error al cargar las transacciones');
+            }
+            this.transacciones = await response.json();
+        }
     }
-
-    async function agregar(transaccion: any) {
-        // Asegura que los campos sean correctos antes de enviar
-        const nueva = await addTransaccion({
-            tipo: transaccion.tipo,
-            descripcion: transaccion.descripcion,
-            importe: Number(transaccion.importe),
-            fecha: transaccion.fecha,
-            categoria: transaccion.categoria,
-        })
-        transacciones.value.unshift(nueva)
-    }
-
-    return {
-        transacciones,
-        cargar,
-        agregar,
-    }
-})
+});

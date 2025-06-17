@@ -1,17 +1,17 @@
 <template>
     <div class="flex items-center justify-center min-h-screen bg-[#0a1e2e]">
         <div
-            class="relative max-w-md w-full bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl p-8 transform transition-all duration-500 hover:scale-105 hover:shadow-[0_15px_50px_rgba(10,30,46,0.3)]">
+            class="relative max-w-md w-full bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl p-8">
             <div class="absolute inset-0 bg-gradient-to-r from-[#fff5eb]/10 to-[#0a1e2e]/10 rounded-3xl -z-10"></div>
 
-            <h1 class="text-4xl font-extrabold text-[#0a1e2e] text-center mb-10 animate-fade-in">
+            <h1 class="text-4xl font-extrabold text-[#0a1e2e] text-center mb-10">
                 Bienvenido
             </h1>
 
             <div class="space-y-8">
                 <div class="relative">
                     <input v-model="email" type="text" placeholder="Email"
-                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 "
                         aria-label="Correo electrónico" />
                     <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -22,7 +22,7 @@
 
                 <div class="relative">
                     <input v-model="password" type="password" placeholder="Contraseña"
-                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 "
                         aria-label="Contraseña" />
                     <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
@@ -51,6 +51,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../store/store'
+import { login } from '../app/api'
 
 const email = ref('')
 const password = ref('')
@@ -64,19 +65,20 @@ async function handleLogin() {
         error.value = 'Completa todos los campos'
         return
     }
+
     try {
-       
-        const res = await fetch('http://localhost:8080/kubera/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: email.value,
-                password: password.value
-            })
+        const user = await login({
+            email: email.value,
+            password: password.value
         })
-        if (!res.ok) throw new Error('Credenciales incorrectas')
-        const user = await res.json()
-        userStore.setUser(user)
+
+        userStore.setUser({
+            id: user.id || user.userId,
+            nombre: user.nombre || user.name || user.username,
+            email: user.email,
+            jars: user.jars || []
+        })
+
         router.push('/inicio')
     } catch (e: any) {
         error.value = e.message || 'Error al iniciar sesión'
@@ -88,16 +90,16 @@ async function handleLogin() {
 h1,
 h2,
 h3 {
-  font-family: "Hammersmith One", sans-serif;
-  font-weight: lighter;
+    font-family: "Hammersmith One", sans-serif;
+    font-weight: lighter;
 }
 
 p,
 button,
 a,
 span {
-  font-family: "Biryani", sans-serif;
-  font-weight: light;
+    font-family: "Biryani", sans-serif;
+    font-weight: light;
 }
 
 @keyframes fade-in {

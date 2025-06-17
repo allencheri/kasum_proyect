@@ -15,7 +15,7 @@
                 </p>
                 <div class="flex justify-center gap-6">
                     <router-link to="login"
-                        class="bg-[#fff5eb] text-[#0a1e2e] px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#fff5eb]/80 transition-all duration-500 transform hover:scale-110 shadow-lg">
+                        class="bg-[#fff5eb] text-[#0a1e2e] px-8 pt-3 pb-2 rounded-full font-semibold text-lg hover:bg-[#fff5eb]/80 transition-all duration-500 transform hover:scale-110 shadow-lg">
                         Prueba Gratis
                     </router-link>
                 </div>
@@ -100,7 +100,7 @@
                             <li class="flex items-center"><span class="mr-2">✔</span> Soporte por correo</li>
                         </ul>
                         <button @click="getStarted"
-                            class="w-full bg-[#fff5eb] text-[#0a1e2e] px-6 py-3 rounded-full font-semibold hover:bg-[#fff5eb]/80 transition-all duration-300 transform ">
+                            class="w-full bg-[#fff5eb] text-[#0a1e2e] px-6 pt-3 pb-2  rounded-full font-semibold hover:bg-[#fff5eb]/80 transition-all duration-300 transform ">
                             Comenzar
                         </button>
                     </div>
@@ -119,7 +119,7 @@
                             <li class="flex items-center"><span class="mr-2">✔</span> Soporte prioritario</li>
                         </ul>
                         <button @click="getStarted"
-                            class="w-full bg-amber-500 text-white py-2 rounded-full font-semibold hover:bg-amber-500/80 transition-all duration-300 transform">
+                            class="w-full bg-amber-500 text-white pt-3 pb-2  rounded-full font-semibold hover:bg-amber-500/80 transition-all duration-300 transform">
                             Probar Ahora
                         </button>
                     </div>
@@ -136,7 +136,7 @@
                             <li class="flex items-center"><span class="mr-2">✔</span> Soporte 24/7</li>
                         </ul>
                         <button @click="getStarted"
-                            class="w-full bg-[#fff5eb] text-[#0a1e2e] px-6 py-3 rounded-full font-semibold hover:bg-[#fff5eb]/80 transition-all duration-300 transform">
+                            class="w-full bg-[#fff5eb] text-[#0a1e2e] px-6 pt-3 pb-2  rounded-full font-semibold hover:bg-[#fff5eb]/80 transition-all duration-300 transform">
                             Obtener Pro
                         </button>
                     </div>
