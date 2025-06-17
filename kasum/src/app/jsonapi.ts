@@ -1,7 +1,7 @@
 const API_URL = 'http://localhost:8080/kubera/movimientos';
 
 export async function getTransacciones() {
-    const res = await fetch("http://localhost:8080/kubera/movimientos/", {
+    const res = await fetch(`${API_URL}/`, {
         method: "GET",
         credentials: "include", // ⚠️ MUY IMPORTANTE
       });
