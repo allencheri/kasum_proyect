@@ -66,7 +66,7 @@ async function handleLogin() {
     }
     try {
        
-        const res = await fetch('http://localhost:3000/api/login', {
+        const res = await fetch('http://localhost:8080/kubera/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -77,7 +77,7 @@ async function handleLogin() {
         if (!res.ok) throw new Error('Credenciales incorrectas')
         const user = await res.json()
         userStore.setUser(user)
-        router.push('/')
+        router.push('/inicio')
     } catch (e: any) {
         error.value = e.message || 'Error al iniciar sesión'
     }

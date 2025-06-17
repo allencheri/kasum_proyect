@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import kasum.backend.allenFeli.domain.model.Movimiento;
 import kasum.backend.allenFeli.service.MovimientoService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 
-
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/kubera/movimientos")
 public class MovimientoController {
@@ -43,6 +44,7 @@ public class MovimientoController {
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevoMovimiento(@RequestBody Movimiento nuevoMovimiento) {
+        System.out.println(nuevoMovimiento);
         movimientoService.grabarMovimineto(nuevoMovimiento);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoMovimiento);
     }

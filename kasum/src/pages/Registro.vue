@@ -95,14 +95,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../store/store'
-import { createUser } from '../app/api'
+import { createUser, registerUser } from '../app/api'
 
 const nombre = ref('')
 const apellido = ref('')
 const email = ref('')
 const password = ref('')
 const password2 = ref('')
-const rol = ref('userGratis')
+const rol = ref('USUARIO')
 const error = ref('')
 const router = useRouter()
 const userStore = useUserStore()
@@ -123,9 +123,9 @@ async function handleRegister() {
             apellido: apellido.value,
             email: email.value,
             password: password.value,
-            rol: rol.value
+            rol: 'USUARIO'
         }
-        const user = await createUser(userData)
+        const user = await registerUser(userData)
         userStore.setUser(user)
         router.push('/')
     } catch (e: any) {

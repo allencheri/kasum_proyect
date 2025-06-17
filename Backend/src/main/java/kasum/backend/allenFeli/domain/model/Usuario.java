@@ -1,6 +1,9 @@
 package kasum.backend.allenFeli.domain.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,7 +23,9 @@ public class Usuario {
     private Long id;
     private String nombre;
     private String apellido;
+    @Column(unique = true)
     private String email;
     private String password;
-    private String rol;
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 }
