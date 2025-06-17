@@ -1,13 +1,14 @@
 <template>
     <div class="flex items-center justify-center min-h-screen bg-[#0a1e2e]">
         <div
-            class="relative max-w-md w-full bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl p-8 transform transition-all duration-500 hover:scale-105 hover:shadow-[0_15px_50px_rgba(10,30,46,0.3)]">
+            class="relative max-w-130 w-full bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl p-8 ">
             <div class="absolute inset-0 bg-gradient-to-r from-[#fff5eb]/10 to-[#0a1e2e]/10 rounded-3xl -z-10"></div>
 
             <h1 class="text-4xl font-extrabold text-[#0a1e2e] text-center mb-10 animate-fade-in">
                 Crea tu cuenta
             </h1>
             <div class="space-y-8">
+                <div class="flex gap-3">
                 <div class="relative">
                     <input v-model="nombre" type="text" placeholder="Nombre"
                         class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
@@ -29,6 +30,7 @@
                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                 </div>
+                </div>
 
                 <div class="relative">
                     <input v-model="email" type="email" placeholder="Email"
@@ -41,6 +43,9 @@
                     </svg>
                 </div>
 
+                <div class="flex gap-3">
+
+               
                 <div class="relative">
                     <input v-model="password" type="password" placeholder="Contraseña"
                         class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
@@ -62,6 +67,8 @@
                             d="M12 11c0-1.1-.9-2-2-2s-2 .9-2 2v2h4v-2zm6 5v-2a6 6 0 00-12 0v2a2 2 0 00-2 2v2a2 2 0 002 2h12a2 2 0 002-2v-2a2 2 0 00-2-2z" />
                     </svg>
                 </div>
+
+                 </div>
 
                 <div class="relative">
                     <select v-model="rol"

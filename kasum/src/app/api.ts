@@ -1,10 +1,14 @@
 const BASE_URL = 'http://localhost:8080/kubera/usuarios/';
 
 export async function getUsers() {
-    const res = await fetch(BASE_URL);
-    if (!res.ok) throw new Error('Error al obtener usuarios');
-    return res.json();
+    const res = await fetch( BASE_URL, {
+        method: "GET",
+        credentials: "include", // ⚠️ MUY IMPORTANTE
+      });
+    return await res.json();
 }
+
+
 
 export async function getUserById(id: string | number) {
     const res = await fetch(`${BASE_URL}${id}`);
@@ -12,21 +16,9 @@ export async function getUserById(id: string | number) {
     return res.json();
 }
 export async function registerUser(user: any) {
-    // user: {nombre, apellido, email, password, rol}
     const res = await fetch(`http://localhost:8080/kubera/auth/register`, {
         method: 'POST',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user),
-    });
-    if (!res.ok) throw new Error('Error al crear usuario');
-    return res.json();
-}
-
-export async function createUser(user: any) {
-    // user: {nombre, apellido, email, password, rol}
-    const res = await fetch(`${BASE_URL}nuevo`, {
-        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user),
     });
@@ -52,3 +44,4 @@ export async function deleteUser(id: string | number) {
     if (!res.ok) throw new Error('Error al eliminar usuario');
     return res.json();
 }
+
