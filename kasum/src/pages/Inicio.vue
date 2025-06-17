@@ -153,7 +153,7 @@ import { Bar } from 'vue-chartjs';
 import { useUserStore } from '../store/store';
 import { getTransacciones } from '../app/jsonapi';
 import { getUserById } from '../app/api';
-import Navbar from '../components/Navbar.vue';
+import Navbar from '../components/NavBar.vue';
 
 import {
   Chart as ChartJS,
