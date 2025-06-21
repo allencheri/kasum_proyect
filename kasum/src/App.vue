@@ -13,10 +13,7 @@ import { useUserStore } from './store/store'
 const userStore = useUserStore()
 
 onMounted(() => {
-    const savedUser = localStorage.getItem('user')
-    if (savedUser) {
-        userStore.setUser(JSON.parse(savedUser))
-    }
+    userStore.initAuth()
 })
 </script>
 

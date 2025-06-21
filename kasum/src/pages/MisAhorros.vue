@@ -321,11 +321,11 @@ watch(jars, saveJarsToApi, { deep: true })
 function getJarImage(jar: Jar): string {
     if (jar.goal === 0) return '/jar.svg'
     const percent = (jar.saved / jar.goal) * 100
-    if (percent >= 81) return '/jar100%.svg'
-    if (percent >= 61) return '/jar60%.svg'
-    if (percent >= 41) return '/jar30%.svg'
-    if (percent >= 21) return '/jar10%.svg'
-    if (percent >= 5) return '/jar5%.svg'
+    if (percent >= 81) return '/jar100.svg'
+    if (percent >= 61) return '/jar60.svg'
+    if (percent >= 41) return '/jar30.svg'
+    if (percent >= 21) return '/jar10.svg'
+    if (percent >= 5) return '/jar5.svg'
     return '/jar.svg'
 }
 
@@ -373,7 +373,7 @@ async function addNewGoal() {
     };
 
     userStore.addJar(jar);
-    jars.value.push(jar);
+    jars.value.push(jar); 
     showModal.value = false;
     newGoal.value = { name: '', amount: 0 };
     showToast('Meta creada exitosamente', 'success');

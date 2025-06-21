@@ -52,15 +52,26 @@ export const useUserStore = defineStore('user', {
     }),
     getters: {
         userId: (state) => state.currentUser?.id,
-        isAuthenticated: (state) => !!state.token
+        isAuthenticatedByToken: (state) => !!state.token
     },
     actions: {
         setUser(userData: User) {
             this.user = userData;
             this.isAuthenticated = true;
+            localStorage.setItem('user', JSON.stringify(userData));
             const savedSettings = localStorage.getItem('userSettings');
             if (savedSettings) {
                 this.settings = JSON.parse(savedSettings);
+            }
+        },
+        initAuth() {
+            const user = localStorage.getItem('user');
+            if (user) {
+                this.user = JSON.parse(user);
+                this.isAuthenticated = true;
+            } else {
+                this.user = null;
+                this.isAuthenticated = false;
             }
         },
 

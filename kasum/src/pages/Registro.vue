@@ -133,8 +133,9 @@ async function handleRegister() {
             rol: 'USUARIO'
         }
         const user = await registerUser(userData)
-        userStore.setUser(user)
         router.push('/login')
+        userStore.setUser(user)
+        
     } catch (e: any) {
         error.value = e.message || 'Error en el registro'
     }
