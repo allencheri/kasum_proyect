@@ -41,7 +41,7 @@ export default defineComponent({
 
         const chartOptions = {
             responsive: true,
-            maintainAspectRatio: false, // Allows custom height
+            maintainAspectRatio: false, 
             plugins: {
                 legend: {
                     position: 'top' as const,

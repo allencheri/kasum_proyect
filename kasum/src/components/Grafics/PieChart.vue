@@ -10,7 +10,6 @@ import {
     CategoryScale,
 } from 'chart.js'
 
-// Registrar los componentes de Chart.js que se usarán
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 
 export default defineComponent({
@@ -29,7 +28,6 @@ export default defineComponent({
         }
     },
     setup(props) {
-        // Colores para las categorías
         const colores = [
             'rgba(255, 182, 193, 0.8)', // Rosa claro
             'rgba(255, 215, 0, 0.8)',   // Amarillo
@@ -44,7 +42,6 @@ export default defineComponent({
         ]
         const coloresBorde = colores.map(c => c.replace('0.8', '1'))
 
-        // Agrupa gastos por categoría
         const gastosPorCategoria = computed(() => {
             const map: Record<string, number> = {}
             props.categorias.forEach(cat => map[cat] = 0)
@@ -53,7 +50,6 @@ export default defineComponent({
                     map[t.categoria] += t.importe
                 }
             })
-            // Solo categorías con gasto > 0
             return Object.entries(map).filter(([_, v]) => v > 0)
         })
 
@@ -96,7 +92,7 @@ export default defineComponent({
 
 <style scoped>
 .chart-container {
-    width: 400px; /* Ajusta según necesites */
-    height: 400px; /* Ajusta según necesites */
+    width: 400px; 
+    height: 400px; 
 }
 </style>

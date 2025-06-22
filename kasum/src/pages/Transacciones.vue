@@ -328,7 +328,7 @@ const mesSeleccionado = ref<string | number>('')
 function adaptarTransaccion(t: any): Transaccion {
     return {
         fecha: t.fecha.split('T')[0],
-        tipo: t.tipo.charAt(0).toUpperCase() + t.tipo.slice(1), // Capitaliza la primera letra
+        tipo: t.tipo.charAt(0).toUpperCase() + t.tipo.slice(1), 
         categoria: t.categoria || 'Otros',
         descripcion: t.descripcion || '',
         importe: t.monto || 0,

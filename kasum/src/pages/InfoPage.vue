@@ -238,12 +238,10 @@ ul, li, span, small, .text-sm, .text-xs {
     }
 }
 
-/* Parallax Effect */
 header {
     background-attachment: fixed;
 }
 
-/* Smooth Scroll */
 html {
     scroll-behavior: smooth;
 }
