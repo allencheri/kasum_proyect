@@ -119,7 +119,7 @@
                             <li class="flex items-center"><span class="mr-2">✔</span> Soporte prioritario</li>
                         </ul>
                         <router-link to="/login"
-                            class="w-full bg-amber-500 text-white pt-3 pb-2  rounded-full font-semibold hover:bg-amber-500/80 transition-all duration-300 transform">
+                            class="w-full bg-amber-500 text-white pt-3 pb-2 pr-2 pl-2  rounded-full font-semibold hover:bg-amber-500/80 transition-all duration-300 transform">
                             Probar Ahora
                         </router-link>
                     </div>
