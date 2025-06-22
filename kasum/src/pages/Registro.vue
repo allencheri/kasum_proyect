@@ -1,7 +1,6 @@
 <template>
     <div class="flex items-center justify-center min-h-screen bg-[#0a1e2e]">
-        <div
-            class="relative max-w-130 w-full bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl p-8 ">
+        <div class="relative max-w-130 w-full bg-white/95 backdrop-blur-lg shadow-2xl rounded-3xl p-8 ">
             <div class="absolute inset-0 bg-gradient-to-r from-[#fff5eb]/10 to-[#0a1e2e]/10 rounded-3xl -z-10"></div>
 
             <h1 class="text-4xl font-extrabold text-[#0a1e2e] text-center mb-10 animate-fade-in">
@@ -9,27 +8,27 @@
             </h1>
             <div class="space-y-8">
                 <div class="flex gap-3">
-                <div class="relative">
-                    <input v-model="nombre" type="text" placeholder="Nombre"
-                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
-                        aria-label="Nombre" />
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                </div>
+                    <div class="relative">
+                        <input v-model="nombre" type="text" placeholder="Nombre"
+                            class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                            aria-label="Nombre" />
+                        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
 
-                <div class="relative">
-                    <input v-model="apellido" type="text" placeholder="Apellido"
-                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
-                        aria-label="Apellido" />
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                </div>
+                    <div class="relative">
+                        <input v-model="apellido" type="text" placeholder="Apellido"
+                            class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                            aria-label="Apellido" />
+                        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
                 </div>
 
                 <div class="relative">
@@ -45,41 +44,32 @@
 
                 <div class="flex gap-3">
 
-               
-                <div class="relative">
-                    <input v-model="password" type="password" placeholder="Contraseña"
-                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
-                        aria-label="Contraseña" />
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 11c0-1.1-.9-2-2-2s-2 .9-2 2v2h4v-2zm6 5v-2a6 6 0 00-12 0v2a2 2 0 00-2 2v2a2 2 0 002 2h12a2 2 0 002-2v-2a2 2 0 00-2-2z" />
-                    </svg>
+
+                    <div class="relative">
+                        <input v-model="password" type="password" placeholder="Contraseña"
+                            class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                            aria-label="Contraseña" />
+                        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 11c0-1.1-.9-2-2-2s-2 .9-2 2v2h4v-2zm6 5v-2a6 6 0 00-12 0v2a2 2 0 00-2 2v2a2 2 0 002 2h12a2 2 0 002-2v-2a2 2 0 00-2-2z" />
+                        </svg>
+                    </div>
+
+                    <div class="relative">
+                        <input v-model="password2" type="password" placeholder="Confirmar contraseña"
+                            class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
+                            aria-label="Confirmar contraseña" />
+                        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 11c0-1.1-.9-2-2-2s-2 .9-2 2v2h4v-2zm6 5v-2a6 6 0 00-12 0v2a2 2 0 00-2 2v2a2 2 0 002 2h12a2 2 0 002-2v-2a2 2 0 00-2-2z" />
+                        </svg>
+                    </div>
+
                 </div>
 
-                <div class="relative">
-                    <input v-model="password2" type="password" placeholder="Confirmar contraseña"
-                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] placeholder-[#0a1e2e]/50 focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
-                        aria-label="Confirmar contraseña" />
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0a1e2e]/50" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 11c0-1.1-.9-2-2-2s-2 .9-2 2v2h4v-2zm6 5v-2a6 6 0 00-12 0v2a2 2 0 00-2 2v2a2 2 0 002 2h12a2 2 0 002-2v-2a2 2 0 00-2-2z" />
-                    </svg>
-                </div>
 
-                 </div>
-
-                <div class="relative">
-                    <select v-model="rol"
-                        class="w-full p-4 pl-12 rounded-xl border-none bg-[#fff5eb]/80 text-[#0a1e2e] focus:ring-4 focus:ring-[#0a1e2e]/30 transition-all duration-300"
-                        aria-label="Rol del usuario">
-                        <option value="userGratis">Usuario Gratis</option>
-                        <option value="userEstandar">Usuario Estándar</option>
-                        <option value="userPro">Usuario Pro</option>
-                        <option value="admin">Administrador</option>
-                    </select>
-                </div>
 
                 <button @click="handleRegister"
                     class="w-full bg-gradient-to-r from-[#0a1e2e] to-[#1e3a5f] text-white py-4 rounded-xl font-semibold text-lg hover:bg-gradient-to-r hover:from-[#1e3a5f] hover:to-[#0a1e2e] transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
@@ -109,7 +99,6 @@ const apellido = ref('')
 const email = ref('')
 const password = ref('')
 const password2 = ref('')
-const rol = ref('USUARIO')
 const error = ref('')
 const router = useRouter()
 const userStore = useUserStore()
@@ -135,7 +124,7 @@ async function handleRegister() {
         const user = await registerUser(userData)
         router.push('/login')
         userStore.setUser(user)
-        
+
     } catch (e: any) {
         error.value = e.message || 'Error en el registro'
     }
@@ -146,16 +135,16 @@ async function handleRegister() {
 h1,
 h2,
 h3 {
-  font-family: "Hammersmith One", sans-serif;
-  font-weight: lighter;
+    font-family: "Hammersmith One", sans-serif;
+    font-weight: lighter;
 }
 
 p,
 button,
 a,
 span {
-  font-family: "Biryani", sans-serif;
-  font-weight: light;
+    font-family: "Biryani", sans-serif;
+    font-weight: light;
 }
 
 @keyframes fade-in {
