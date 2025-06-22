@@ -12,7 +12,7 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 ml-130 mb-12">
         <div class="bg-primary/30 backdrop-blur-sm p-8 rounded-2xl border border-secondary/20 shadow-xl">
           <div class="flex items-center gap-3 mb-6">
             <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center border border-secondary/30">
@@ -80,7 +80,7 @@
       </div>
 
 
-      <div class="bg-primary/30 backdrop-blur-sm p-5 rounded-2xl border border-secondary/20 shadow-xl">
+      <div class="bg-primary/30 w-150 ml-115 backdrop-blur-sm p-5 rounded-2xl border border-secondary/20 shadow-xl">
         <div class="flex items-center gap-3 mb-3">
           <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center border border-secondary/30">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-secondary" fill="none" viewBox="0 0 24 24"
@@ -193,7 +193,6 @@ const savingsChange = computed(() => {
   const now = new Date();
   const prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
-  // Filter transactions for previous month
   const prevMonthTransactions = transactions.value.filter(t => {
     const transDate = new Date(t.fecha);
     return transDate.getMonth() === prevMonth.getMonth() &&

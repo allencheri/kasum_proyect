@@ -99,10 +99,10 @@
                             <li class="flex items-center"><span class="mr-2">✔</span> Gráficos básicos</li>
                             <li class="flex items-center"><span class="mr-2">✔</span> Soporte por correo</li>
                         </ul>
-                        <button @click="getStarted"
+                        <router-link to="/login"
                             class="w-full bg-[#fff5eb] text-[#0a1e2e] px-6 pt-3 pb-2  rounded-full font-semibold hover:bg-[#fff5eb]/80 transition-all duration-300 transform ">
                             Comenzar
-                        </button>
+                        </router-link>
                     </div>
                     <div
                         class="relative bg-gradient-to-br from-[#0a1e2e] to-[#1a3c5e] text-[#fff5eb] p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-[#fff5eb]/20">
@@ -118,10 +118,10 @@
                             <li class="flex items-center"><span class="mr-2">✔</span> Recordatorios personalizados</li>
                             <li class="flex items-center"><span class="mr-2">✔</span> Soporte prioritario</li>
                         </ul>
-                        <button @click="getStarted"
+                        <router-link to="/login"
                             class="w-full bg-amber-500 text-white pt-3 pb-2  rounded-full font-semibold hover:bg-amber-500/80 transition-all duration-300 transform">
                             Probar Ahora
-                        </button>
+                        </router-link>
                     </div>
                     <div
                         class="relative bg-gradient-to-br from-[#0a1e2e] to-[#1a3c5e] text-[#fff5eb] p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-[#fff5eb]/20">
@@ -135,10 +135,10 @@
                             <li class="flex items-center"><span class="mr-2">✔</span> Exportación de datos</li>
                             <li class="flex items-center"><span class="mr-2">✔</span> Soporte 24/7</li>
                         </ul>
-                        <button @click="getStarted"
+                        <router-link to="/login"
                             class="w-full bg-[#fff5eb] text-[#0a1e2e] px-6 pt-3 pb-2  rounded-full font-semibold hover:bg-[#fff5eb]/80 transition-all duration-300 transform">
                             Obtener Pro
-                        </button>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -149,7 +149,6 @@
 
 <script setup lang="ts">
 
-const getStarted = () => { };
 
 
 </script>
